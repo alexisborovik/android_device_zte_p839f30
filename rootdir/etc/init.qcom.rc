@@ -25,7 +25,6 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-import init.qcom.power.rc
 import init.qcom.usb.rc
 
 on early-init
@@ -38,31 +37,19 @@ on init
     mkdir /firmware 0771 system system
 
     # See storage config details at http://source.android.com/tech/storage/
-    #mkdir /mnt/shell/emulated 0700 shell shell
+    mkdir /mnt/shell/emulated 0700 shell shell
     mkdir /storage/emulated 0555 root root
-    mkdir /storage/emulated/legacy 0755 system sdcard_r
 
-    mkdir /mnt/media_rw/sdcard0 0700 media_rw media_rw
-    mkdir /storage/sdcard0 0755 system sdcard_r
-# change caused  by partition layout of zte
-    #export EXTERNAL_STORAGE /storage/emulated/legacy
-    export EXTERNAL_STORAGE /storage/sdcard0	#added
-    #export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
-    #export EMULATED_STORAGE_TARGET /storage/emulated
+    export EXTERNAL_STORAGE /storage/emulated/legacy
+    export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
+    export EMULATED_STORAGE_TARGET /storage/emulated
     export SECONDARY_STORAGE /storage/sdcard1:/storage/usbdisk
-    export MEDIA_STORAGE /storage/sdcard0 #added
 
     # Support legacy paths
-    #symlink /storage/emulated/legacy /sdcard
-    #symlink /storage/emulated/legacy /mnt/sdcard
-    #symlink /storage/emulated/legacy /storage/sdcard0
-    #symlink /mnt/shell/emulated/0 /storage/emulated/legacy
-    # ZTE-MODOFY liuxiaohui end 20141224
-    symlink /storage/sdcard0 /sdcard
-    symlink /storage/sdcard0 /mnt/sdcard
-    symlink /storage/sdcard1 /sdcard1
-    symlink /storage/sdcard1 /mnt/sdcard1
-    # ZTE-MODOFY liuxiaohui end 20141208
+    symlink /storage/emulated/legacy /sdcard
+    symlink /storage/emulated/legacy /mnt/sdcard
+    symlink /storage/emulated/legacy /storage/sdcard0
+    symlink /mnt/shell/emulated/0 /storage/emulated/legacy
 
     # External SD card
     mkdir /mnt/media_rw/sdcard1 0700 media_rw media_rw
@@ -93,10 +80,13 @@ on early-boot
     write /sys/kernel/boot_adsp/boot 1
 
 on boot
-    # Enable writing to led blink node from userspace
-    chown system system /sys/class/leds/red/blink
-    chown system system /sys/class/leds/green/blink
-    chown system system /sys/class/leds/blue/blink
+    # Enable writing to led breathing node from userspace
+    chown system system /sys/class/leds/middle/breathing
+    chown system system /sys/class/leds/left/breathing
+    chown system system /sys/class/leds/right/breathing
+    chown system system /sys/class/leds/left/brightness
+    chown system system /sys/class/leds/middle/brightness
+    chown system system /sys/class/leds/right/brightness
     chown system system /sys/class/leds/flashlight/brightness
     chown system system /sys/class/leds/flashlight-front/brightness
     chown system camera /sys/class/leds/torch-light0/brightness
@@ -281,6 +271,9 @@ service sensord /system/bin/sensord
     class main
     user root
 
+on property:init.svc.zygote=restarting
+    restart sensord
+
 service p2p_supplicant /system/bin/wpa_supplicant \
     -ip2p0 -Dnl80211 -c/data/misc/wifi/p2p_supplicant.conf \
     -I/system/etc/wifi/p2p_supplicant_overlay.conf -N \
@@ -409,6 +402,10 @@ on property:persist.radio.multisim.config=dsds
 service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
     class late_start
 
+service fuse_sdcard0 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard0 /storage/sdcard0
+    class late_start
+    disabled
+
 service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -w 1023 /mnt/media_rw/sdcard1 /storage/sdcard1
     class late_start
     disabled
@@ -477,6 +474,9 @@ service wcnss-service /system/bin/wcnss_service
 service charger /charger
     class charger
 
+on charger
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor powersave
+
 service adjust_settings /system/bin/adjust_settings
     class main
     user root
@@ -486,9 +486,154 @@ service adjust_settings /system/bin/adjust_settings
 on property:sys.boot_completed=1
     start adjust_settings
 
-service set_sn /system/bin/adjust_serialno setsn
+service set_sn /system/bin/adjust_settings setsn
     disabled
     oneshot
 
 on property:sys.sn_set=1
     start set_sn
+
+on property:sys.boot_completed=1
+
+    # Enable Power modes
+    write /sys/module/lpm_levels/parameters/sleep_disabled 0
+    write /sys/devices/system/cpu/cpu1/online 1
+    write /sys/devices/system/cpu/cpu2/online 1
+    write /sys/devices/system/cpu/cpu3/online 1
+    write /sys/devices/system/cpu/cpu4/online 1
+    write /sys/devices/system/cpu/cpu5/online 1
+    write /sys/devices/system/cpu/cpu6/online 1
+    write /sys/devices/system/cpu/cpu7/online 1
+
+on property:init.svc.bootanim=stopped
+    # Enable adaptive LMK and set vmpressure_file_min
+    write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
+    write /sys/module/lowmemorykiller/parameters/vmpressure_file_min 53059
+
+    # HMP scheduler settings
+    write /proc/sys/kernel/sched_window_stats_policy 3
+    write /proc/sys/kernel/sched_ravg_hist_size 5
+
+
+    # HMP scheduler (big.Little cluster related) settings
+    write /proc/sys/kernel/sched_upmigrate 75
+    write /proc/sys/kernel/sched_downmigrate 60
+
+    # HMP Task packing settings
+    write /proc/sys/kernel/sched_small_task 20
+    write /sys/devices/system/cpu/cpu0/sched_mostly_idle_load 30
+    write /sys/devices/system/cpu/cpu1/sched_mostly_idle_load 30
+    write /sys/devices/system/cpu/cpu2/sched_mostly_idle_load 30
+    write /sys/devices/system/cpu/cpu3/sched_mostly_idle_load 30
+    write /sys/devices/system/cpu/cpu4/sched_mostly_idle_load 30
+    write /sys/devices/system/cpu/cpu5/sched_mostly_idle_load 30
+    write /sys/devices/system/cpu/cpu6/sched_mostly_idle_load 30
+    write /sys/devices/system/cpu/cpu7/sched_mostly_idle_load 30
+    write /sys/devices/system/cpu/cpu0/sched_mostly_idle_nr_run 3
+    write /sys/devices/system/cpu/cpu1/sched_mostly_idle_nr_run 3
+    write /sys/devices/system/cpu/cpu2/sched_mostly_idle_nr_run 3
+    write /sys/devices/system/cpu/cpu3/sched_mostly_idle_nr_run 3
+    write /sys/devices/system/cpu/cpu4/sched_mostly_idle_nr_run 3
+    write /sys/devices/system/cpu/cpu5/sched_mostly_idle_nr_run 3
+    write /sys/devices/system/cpu/cpu6/sched_mostly_idle_nr_run 3
+    write /sys/devices/system/cpu/cpu7/sched_mostly_idle_nr_run 3
+
+    # Switch to FIOPS and balanced mode after boot for better UX
+    write /sys/block/mmcblk0/queue/scheduler fiops
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu5/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu6/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu7/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold 90
+    write /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate 50000
+    write /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy 1
+    write /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor 2
+    write /dev/cpuctl/apps/cpu.notify_on_migrate 1
+    write /sys/class/net/rmnet0/queues/rx-0/rps_cpus 10
+    start perfd
+
+# CyanogenMod Performance Profiles
+
+# Powersave
+on property:sys.perf.profile=0
+    write /sys/devices/system/cpu/cpu1/online 1
+    write /sys/devices/system/cpu/cpu2/online 1
+    write /sys/devices/system/cpu/cpu3/online 1
+    write /sys/devices/system/cpu/cpu4/online 1
+    write /sys/devices/system/cpu/cpu5/online 1
+    write /sys/devices/system/cpu/cpu6/online 1
+    write /sys/devices/system/cpu/cpu7/online 1
+    start perfd
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor powersave
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor powersave
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor powersave
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor powersave
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor powersave
+    write /sys/devices/system/cpu/cpu5/cpufreq/scaling_governor powersave
+    write /sys/devices/system/cpu/cpu6/cpufreq/scaling_governor powersave
+    write /sys/devices/system/cpu/cpu7/cpufreq/scaling_governor powersave
+    write /sys/module/msm_thermal/core_control/enabled 0
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 1094400
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 1094400
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 1094400
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 1094400
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq 1094400
+    write /sys/devices/system/cpu/cpu5/cpufreq/scaling_min_freq 1094400
+    write /sys/devices/system/cpu/cpu6/cpufreq/scaling_min_freq 1094400
+    write /sys/devices/system/cpu/cpu7/cpufreq/scaling_min_freq 1094400
+    write /sys/module/msm_thermal/core_control/enabled 1
+    write /sys/class/kgsl/kgsl-3d0/devfreq/governor powersave
+    write /sys/class/devfreq/qcom,cpubw.62/governor powersave
+    write /sys/class/devfreq/qcom,gpubw.59/governor powersave
+
+# Balanced
+on property:sys.perf.profile=1
+    stop perfd
+    write /sys/devices/system/cpu/cpu1/online 1
+    write /sys/devices/system/cpu/cpu2/online 1
+    write /sys/devices/system/cpu/cpu3/online 1
+    write /sys/devices/system/cpu/cpu4/online 1
+    write /sys/devices/system/cpu/cpu5/online 1
+    write /sys/devices/system/cpu/cpu6/online 1
+    write /sys/devices/system/cpu/cpu7/online 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu5/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu6/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu7/cpufreq/scaling_governor ondemand
+    write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
+    write /sys/class/devfreq/qcom,mincpubw.63/governor cpufreq
+    write /sys/class/devfreq/qcom,cpubw.62/governor bw_hwmon
+    write /sys/class/devfreq/qcom,cpubw.62/bw_hwmon/io_percent 20
+    write /sys/class/devfreq/qcom,gpubw.59/governor bw_hwmon
+    write /sys/class/devfreq/qcom,gpubw.59/bw_hwmon/io_percent 40
+    start perfd
+
+# Performance
+on property:sys.perf.profile=2
+    stop perfd
+    write /sys/devices/system/cpu/cpu1/online 1
+    write /sys/devices/system/cpu/cpu2/online 1
+    write /sys/devices/system/cpu/cpu3/online 1
+    write /sys/devices/system/cpu/cpu4/online 1
+    write /sys/devices/system/cpu/cpu5/online 1
+    write /sys/devices/system/cpu/cpu6/online 1
+    write /sys/devices/system/cpu/cpu7/online 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor performance
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor performance
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor performance
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor performance
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor performance
+    write /sys/devices/system/cpu/cpu5/cpufreq/scaling_governor performance
+    write /sys/devices/system/cpu/cpu6/cpufreq/scaling_governor performance
+    write /sys/devices/system/cpu/cpu7/cpufreq/scaling_governor performance
+    write /sys/class/kgsl/kgsl-3d0/devfreq/governor performance
+    write /sys/class/devfreq/qcom,cpubw.62/governor performance
+    write /sys/class/devfreq/qcom,gpubw.59/governor performance

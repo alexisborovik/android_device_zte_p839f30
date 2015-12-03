@@ -77,7 +77,9 @@ config_bt ()
         setprop ro.qualcomm.bluetooth.ftp true
         setprop ro.qualcomm.bluetooth.nap false
         setprop ro.bluetooth.sap false
-        setprop ro.bluetooth.dun false
+	# ZTE MODIFY by liwei begin 20150108
+        # setprop ro.bluetooth.dun false
+	# ZTE MODIFY by liwei end
         # For MPQ as baseband is same for both
         case $soc_hwid in
           "130")
@@ -121,7 +123,9 @@ config_bt ()
         setprop ro.qualcomm.bluetooth.ftp true
         setprop ro.qualcomm.bluetooth.nap true
         setprop ro.bluetooth.sap true
-        setprop ro.bluetooth.dun true
+	# ZTE MODIFY by liwei begin 20150108
+        # setprop ro.bluetooth.dun true
+        # ZTE MODIFY by liwei end      
         case $btsoc in
           "ath3k")
               setprop ro.qualcomm.bluetooth.map false
@@ -140,7 +144,9 @@ config_bt ()
         setprop ro.qualcomm.bluetooth.map true
         setprop ro.qualcomm.bluetooth.nap true
         setprop ro.bluetooth.sap true
-        setprop ro.bluetooth.dun true
+	# ZTE MODIFY by liwei begin 20150108
+        # setprop ro.bluetooth.dun true
+	# ZTE MODIFY by liwei end  
         ;;
   esac
 

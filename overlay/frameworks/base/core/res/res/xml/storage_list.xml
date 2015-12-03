@@ -6,7 +6,7 @@
     <storage android:storageDescription="@string/storage_internal"
 	android:mountPoint="/storage/sdcard0"
 	android:primary="true"
-	android:emulated="false"
+	android:emulated="true"
 	android:mtpReserve="100" />
     
     <!-- External SD card -->
