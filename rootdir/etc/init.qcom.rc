@@ -37,19 +37,26 @@ on init
     mkdir /firmware 0771 system system
 
     # See storage config details at http://source.android.com/tech/storage/
-    mkdir /mnt/shell/emulated 0700 shell shell
-    mkdir /storage/emulated 0555 root root
+    #mkdir /mnt/shell/emulated 0700 shell shell
+    #mkdir /storage/emulated 0555 root root
+	
+	# Internal SD card
+	mkdir /mnt/media_rw/sdcard0 0700 media_rw media_rw
+    mkdir /storage/sdcard0 0700 root root
+    export EXTERNAL_STORAGE /storage/sdcard0
 
-    export EXTERNAL_STORAGE /storage/emulated/legacy
-    export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
-    export EMULATED_STORAGE_TARGET /storage/emulated
+    #export EXTERNAL_STORAGE /storage/emulated/legacy
+    #export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
+    #export EMULATED_STORAGE_TARGET /storage/emulated
     export SECONDARY_STORAGE /storage/sdcard1:/storage/usbdisk
 
     # Support legacy paths
-    symlink /storage/emulated/legacy /sdcard
-    symlink /storage/emulated/legacy /mnt/sdcard
-    symlink /storage/emulated/legacy /storage/sdcard0
-    symlink /mnt/shell/emulated/0 /storage/emulated/legacy
+    #symlink /storage/emulated/legacy /sdcard
+    #symlink /storage/emulated/legacy /mnt/sdcard
+    #symlink /storage/emulated/legacy /storage/sdcard0
+    #symlink /mnt/shell/emulated/0 /storage/emulated/legacy
+	symlink /storage/sdcard0 /sdcard 
+    symlink /storage/sdcard0 /mnt/sdcard 
 
     # External SD card
     mkdir /mnt/media_rw/sdcard1 0700 media_rw media_rw
@@ -399,8 +406,8 @@ service ril-daemon2 /system/bin/rild -c 2
 on property:persist.radio.multisim.config=dsds
     start ril-daemon2
 
-service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
-    class late_start
+#service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
+#    class late_start
 
 service fuse_sdcard0 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard0 /storage/sdcard0
     class late_start

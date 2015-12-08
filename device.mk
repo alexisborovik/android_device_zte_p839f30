@@ -61,8 +61,8 @@ PRODUCT_PACKAGES += \
 
 # Camera
 #PRODUCT_PACKAGES += \
-#    camera.msm8916 \
-#    libmm-qcamera
+    camera.msm8916 \
+    libmm-qcamera
 
 # Charger
 PRODUCT_PACKAGES += \
@@ -150,8 +150,8 @@ PRODUCT_PACKAGES += \
     keystore.msm8916
 
 # Lights
-#PRODUCT_PACKAGES += \
-#    lights.msm8916
+PRODUCT_PACKAGES += \
+    lights.msm8916
 
 # Media
 PRODUCT_COPY_FILES += \

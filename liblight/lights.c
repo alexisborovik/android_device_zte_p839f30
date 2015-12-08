@@ -41,13 +41,13 @@ static struct light_state_t g_notification;
 static struct light_state_t g_battery;
 
 char const*const RED_LED_FILE
-        = "/sys/class/leds/red/brightness";
+        = "/sys/class/leds/middle/brightness";
 
 char const*const GREEN_LED_FILE
-        = "/sys/class/leds/green/brightness";
+        = "/sys/class/leds/left/brightness";
 
 char const*const BLUE_LED_FILE
-        = "/sys/class/leds/blue/brightness";
+        = "/sys/class/leds/right/brightness";
 
 char const*const LCD_FILE
         = "/sys/class/leds/lcd-backlight/brightness";
@@ -56,13 +56,13 @@ char const*const BUTTON_FILE
         = "/sys/class/leds/button-backlight/brightness";
 
 char const*const RED_BLINK_FILE
-        = "/sys/class/leds/red/blink";
+        = "/sys/class/leds/middle/breathing";
 
 char const*const GREEN_BLINK_FILE
-        = "/sys/class/leds/green/blink";
+        = "/sys/class/leds/left/breathing";
 
 char const*const BLUE_BLINK_FILE
-        = "/sys/class/leds/blue/blink";
+        = "/sys/class/leds/right/breathing";
 
 /*
  * device methods
@@ -137,7 +137,7 @@ void reset_leds(void)
 }
 
 static int
-set_speaker_light_locked(struct light_device_t* dev,
+set_breath_light_locked(struct light_device_t* dev,
         struct light_state_t const* state)
 {
     int red, green, blue;
@@ -171,7 +171,7 @@ set_speaker_light_locked(struct light_device_t* dev,
     colorRGB = state->color;
 
 #if 0
-    ALOGD("set_speaker_light_locked mode %d, colorRGB=%08X, onMS=%d, offMS=%d\n",
+    ALOGD("set_breath_light_locked mode %d, colorRGB=%08X, onMS=%d, offMS=%d\n",
             state->flashMode, colorRGB, onMS, offMS);
 #endif
 
@@ -206,13 +206,13 @@ set_speaker_light_locked(struct light_device_t* dev,
 static void
 handle_speaker_light_locked(struct light_device_t *dev)
 {
-    set_speaker_light_locked(dev, NULL);
+    set_breath_light_locked(dev, NULL);
     if (is_lit(&g_attention)) {
-        set_speaker_light_locked(dev, &g_attention);
+        set_breath_light_locked(dev, &g_attention);
     } else if (is_lit(&g_notification)) {
-        set_speaker_light_locked(dev, &g_notification);
+        set_breath_light_locked(dev, &g_notification);
     } else {
-        set_speaker_light_locked(dev, &g_battery);
+        set_breath_light_locked(dev, &g_battery);
     }
 }
 
@@ -331,6 +331,6 @@ struct hw_module_t HAL_MODULE_INFO_SYM = {
     .version_minor = 0,
     .id = LIGHTS_HARDWARE_MODULE_ID,
     .name = "p839f30 lights Module",
-    .author = "Google, Inc., CyanogenMod",
+    .author = "Google, Inc., CyanogenMod, S.Kranz",
     .methods = &lights_module_methods,
 };
