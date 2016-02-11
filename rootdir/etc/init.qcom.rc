@@ -37,26 +37,19 @@ on init
     mkdir /firmware 0771 system system
 
     # See storage config details at http://source.android.com/tech/storage/
-    #mkdir /mnt/shell/emulated 0700 shell shell
-    #mkdir /storage/emulated 0555 root root
-	
-	# Internal SD card
-	mkdir /mnt/media_rw/sdcard0 0700 media_rw media_rw
-    mkdir /storage/sdcard0 0700 root root
-    export EXTERNAL_STORAGE /storage/sdcard0
+    mkdir /mnt/shell/emulated 0700 shell shell
+    mkdir /storage/emulated 0555 root root
 
-    #export EXTERNAL_STORAGE /storage/emulated/legacy
-    #export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
-    #export EMULATED_STORAGE_TARGET /storage/emulated
+    export EXTERNAL_STORAGE /storage/emulated/legacy
+    export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
+    export EMULATED_STORAGE_TARGET /storage/emulated
     export SECONDARY_STORAGE /storage/sdcard1:/storage/usbdisk
 
     # Support legacy paths
-    #symlink /storage/emulated/legacy /sdcard
-    #symlink /storage/emulated/legacy /mnt/sdcard
-    #symlink /storage/emulated/legacy /storage/sdcard0
-    #symlink /mnt/shell/emulated/0 /storage/emulated/legacy
-	symlink /storage/sdcard0 /sdcard 
-    symlink /storage/sdcard0 /mnt/sdcard 
+    symlink /storage/emulated/legacy /sdcard
+    symlink /storage/emulated/legacy /mnt/sdcard
+    symlink /storage/emulated/legacy /storage/sdcard0
+    symlink /mnt/shell/emulated/0 /storage/emulated/legacy 
 
     # External SD card
     mkdir /mnt/media_rw/sdcard1 0700 media_rw media_rw
@@ -72,6 +65,7 @@ on init
 
 on fs
     mount_all fstab.qcom
+    swapon_all fstab.qcom
     restorecon_recursive /persist
     setprop ro.crypto.fuse_sdcard true
 
@@ -98,6 +92,7 @@ on boot
     chown system system /sys/class/leds/flashlight-front/brightness
     chown system camera /sys/class/leds/torch-light0/brightness
     chmod 0660 /sys/class/leds/torch-light0/brightness
+    chmod 0666 /sys/class/leds/flashlight/brightness
 
     # Create QMUX deamon socket area
     mkdir /dev/socket/qmux_radio 0770 radio radio
@@ -149,6 +144,17 @@ on boot
     chown system system /proc/ctp_if_upgrade
     chown system system /proc/ctp_if_upgrade_version
     chown system system /proc/ctp_if_upgrade_old_version
+
+#added from org B12 - USB
+    chmod 0444 /sys/devices/platform/msm_hsusb/gadget/usb_state
+#For bridgemgr daemon to inform the USB driver of the correct transport
+    chown radio radio /sys/class/android_usb/f_rmnet_smd_sdio/transport
+# External SD scheduler
+    chown system system /sys/block/mmcblk1/queue/scheduler
+    chmod 0664 /sys/block/mmcblk1/queue/scheduler
+    restorecon /sys/block/mmcblk1/queue/scheduler
+# Tap-To-Wake
+#    chown system system /sys/syna_wake_gesture/wake_gesture
 
 on post-fs-data
     mkdir /data/media 0770 media_rw media_rw
@@ -215,8 +221,8 @@ on post-fs-data
     chmod 0660 /sys/devices/virtual/graphics/fb0/rgb
 
     # Tap To Wake
-    chown root system /sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/en_gesture
-    chmod 0660 /sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/en_gesture
+    chown root system /sys/syna_wake_gesture/wake_gesture
+    chmod 0660 /sys/syna_wake_gesture/wake_gesture
 
     # Vibrator
     chown system system /sys/class/timed_output/vibrator/vtg_level
@@ -406,12 +412,8 @@ service ril-daemon2 /system/bin/rild -c 2
 on property:persist.radio.multisim.config=dsds
     start ril-daemon2
 
-#service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
-#    class late_start
-
-service fuse_sdcard0 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard0 /storage/sdcard0
+service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
     class late_start
-    disabled
 
 service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -w 1023 /mnt/media_rw/sdcard1 /storage/sdcard1
     class late_start

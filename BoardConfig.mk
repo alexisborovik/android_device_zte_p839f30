@@ -29,22 +29,26 @@ TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_VARIANT := cortex-a53
+TARGET_CPU_SMP := true
+ARCH_ARM_HAVE_TLS_REGISTER := true
 
 TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
 TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
 
 # Kernel
 TARGET_KERNEL_SOURCE := kernel/zte/p839f30
-TARGET_KERNEL_CONFIG := msm8916-zte-p839f30_2_defconfig
+TARGET_KERNEL_CONFIG := msm_p839f30_defconfig
 #TARGET_KERNEL_VARIANT_CONFIG := msm_P839F30-PV_defconfig
 BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom user_debug=30 msm_rtb.filter=0x3F ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1
 BOARD_KERNEL_BASE := 0x80000000
 BOARD_KERNEL_PAGESIZE := 2048
-#BOARD_KERNEL_SEPARATED_DT := true
+BOARD_KERNEL_SEPARATED_DT := true
 BOARD_RAMDISK_OFFSET     := 0x01000000
 BOARD_KERNEL_TAGS_OFFSET := 0x00000100
-#BOARD_CUSTOM_BOOTIMG_MK := device/zte/p839f30/mkbootimg.mk
-BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --dt device/zte/p839f30/dt.img
+BOARD_CUSTOM_BOOTIMG_MK := device/zte/p839f30/mkbootimg.mk
+BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01000000 --tags_offset 0x00000100
+
+ADDITIONAL_DEFAULT_PROPERTIES += persist.sys.usb.config=mass_storage
 
 # Assert
 TARGET_OTA_ASSERT_DEVICE := p839f30,P839F30
@@ -68,7 +72,7 @@ BLUETOOTH_HCI_USE_MCT := true
 # Camera
 #BOARD_CAMERA_SENSORS := imx214_cp8675
 #TARGET_USE_VENDOR_CAMERA_EXT := true
-#USE_DEVICE_SPECIFIC_CAMERA := true
+USE_DEVICE_SPECIFIC_CAMERA := true
 
 # Charger
 BOARD_CHARGER_SHOW_PERCENTAGE := true
@@ -114,6 +118,9 @@ MAX_EGL_CACHE_KEY_SIZE := 12*1024
 # of the device.
 MAX_EGL_CACHE_SIZE := 2048*1024
 
+# Headers
+TARGET_SPECIFIC_HEADER_PATH := device/zte/p839f30/include
+
 # Init
 TARGET_PLATFORM_DEVICE_BASE := /devices/soc.0/
 
@@ -131,6 +138,7 @@ BOARD_USES_QCOM_HARDWARE := true
 
 # Recovery
 TARGET_RECOVERY_FSTAB := device/zte/p839f30/rootdir/etc/fstab.qcom
+TARGET_RECOVERY_PIXEL_FORMAT := "RGB_565"
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_SUPPRESS_EMMC_WIPE := true
 COMMON_GLOBAL_CFLAGS += -DRECOVERY_FONT='"roboto_15x24.h"'
@@ -147,7 +155,7 @@ BOARD_SEPOLICY_DIRS += device/zte/p839f30/sepolicy
 BOARD_USES_QC_TIME_SERVICES := true
 
 # Vold
-BOARD_VOLD_MAX_PARTITIONS := 32
+BOARD_VOLD_MAX_PARTITIONS := 40
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/msm_hsusb/gadget/lun%d/file
 

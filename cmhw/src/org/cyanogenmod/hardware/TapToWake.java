@@ -20,7 +20,7 @@ import org.cyanogenmod.hardware.util.FileUtils;
 import java.io.File;
 
 public class TapToWake {
-    private static String CONTROL_PATH = "/sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/en_gesture";
+    private static String CONTROL_PATH = "/sys/syna_wake_gesture/wake_gesture";
 
     private static boolean mEnabled = true;
 
