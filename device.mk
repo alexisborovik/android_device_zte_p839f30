@@ -56,7 +56,7 @@ PRODUCT_PACKAGES += \
     init.qcom.bt.sh
 
 # Camera
-#PRODUCT_PACKAGES += \
+PRODUCT_PACKAGES += \
     camera.msm8916 \
     libmm-qcamera
 
