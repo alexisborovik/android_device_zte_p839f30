@@ -26,7 +26,7 @@
 #
 
 on fs
-    write /sys/class/android_usb/android0/iProduct Aquaris_M5
+    write /sys/class/android_usb/android0/iProduct Blade-S6
 
 on post-fs-data
 
@@ -47,8 +47,8 @@ on post-fs-data
     chmod 777 /system/etc/init.atmel_ts.sh
 
     # Tap To Wake
-    chown root system /sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/en_gesture
-    chmod 0660 /sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/en_gesture
+    chown root system /sys/syna_wake_gesture/wake_gesture
+    chmod 0660 /sys/syna_wake_gesture/wake_gesture
 
     # Disable Keys
     chown root system /sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/disable_keys

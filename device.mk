@@ -18,14 +18,14 @@
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
 PRODUCT_AAPT_CONFIG := normal
-PRODUCT_AAPT_PREF_CONFIG := xxhdpi
+PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
 $(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-dalvik-heap.mk)
 $(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
 
 # Audio
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/mixer_paths_skuk.xml:system/etc/mixer_paths_skuk.xml
+    $(LOCAL_PATH)/configs/mixer_paths_mtp.xml:system/etc/mixer_paths_mtp.xml
 
 # Display
 PRODUCT_COPY_FILES += \
@@ -37,7 +37,10 @@ PRODUCT_COPY_FILES += \
 
 # Keylayouts
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/keylayout/atmel_mxt_ts_T100_touchscreen.kl:system/usr/keylayout/atmel_mxt_ts_T100_touchscreen.kl \
+    $(LOCAL_PATH)/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
+    $(LOCAL_PATH)/keylayout/ft5x06_ts.kl:system/usr/keylayout/ft5x06_ts.kl \
+    $(LOCAL_PATH)/keylayout/synaptics_dsx.kl:system/usr/keylayout/synaptics_dsx.kl \
+    $(LOCAL_PATH)/keylayout/synaptics_rmi4_i2c.kl:system/usr/keylayout/synaptics_rmi4_i2c.kl \
     $(LOCAL_PATH)/keylayout/Headset.kl:system/usr/keylayout/Headset.kl
 
 # Media

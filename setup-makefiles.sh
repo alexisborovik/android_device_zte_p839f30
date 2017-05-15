@@ -19,8 +19,8 @@
 set -e
 
 # Required!
-DEVICE=piccolo
-VENDOR=bq
+DEVICE=p839f30
+VENDOR=zte
 
 # Load extractutils and do some sanity checks
 MY_DIR="${BASH_SOURCE%/*}"
