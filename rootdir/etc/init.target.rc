@@ -30,9 +30,6 @@ on fs
 
 on post-fs-data
 
-    # Create directory used by display clients
-    copy /system/etc/display/calib.cfg /data/misc/display/calib.cfg
-    chown system graphics /data/misc/display/calib.cfg
 
     # NFC local data and nfcee xml storage
     mkdir /data/nfc 0770 nfc nfc
@@ -53,11 +50,6 @@ on post-fs-data
     # Disable Keys
     chown root system /sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/disable_keys
     chmod 0660 /sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/disable_keys
-
-service atmel_ts /system/bin/sh /system/etc/init.atmel_ts.sh
-    class main
-    user root
-    oneshot
 
 service msm_irqbalance /system/bin/msm_irqbalance -f /system/etc/msm_irqbalance.conf
     class core

@@ -10,3 +10,6 @@ ro.opengles.version=196609
 # Perfd
 ro.min_freq_0=960000
 ro.min_freq_4=800000
+
+#camera
+camera2.portability.force_api=1
