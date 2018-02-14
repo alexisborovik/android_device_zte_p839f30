@@ -13,4 +13,4 @@
 /data/misc/sensor(/.*)?  	                u:object_r:sensors_data_file:s0
 
 # WiFi
-/persist/.genmac				u:object_r:wifi_data_file:s0
+/persist/wifimac.dat				u:object_r:wifi_data_file:s0

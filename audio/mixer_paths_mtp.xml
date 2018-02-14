@@ -498,7 +498,7 @@
 
     <path name="speaker">
         <ctl name="RX3 MIX1 INP1" value="RX1" />
-		<ctl name="RX3 Digital Volume" value="81" />
+		<ctl name="RX3 Digital Volume" value="95" />
         <ctl name="SPK DAC Switch" value="1" />
     </path>
 
@@ -524,8 +524,8 @@
         <ctl name="MI2S_RX Channels" value="Two" />
         <ctl name="RX1 MIX1 INP1" value="RX1" />
         <ctl name="RX2 MIX1 INP1" value="RX2" />
-        <ctl name="RX1 Digital Volume" value="79" />
-        <ctl name="RX2 Digital Volume" value="79" />
+        <ctl name="RX1 Digital Volume" value="84" />
+        <ctl name="RX2 Digital Volume" value="84" />
         <ctl name="RDAC2 MUX" value="RX2" />
         <ctl name="HPHL" value="Switch" />
         <ctl name="HPHR" value="Switch" />
@@ -585,8 +585,8 @@
     <path name="speaker-and-headphones">
         <path name="speaker" />
         <path name="headphones" />
-		<ctl name="RX1 Digital Volume" value="70" />
-        <ctl name="RX2 Digital Volume" value="70" />
+		<ctl name="RX1 Digital Volume" value="80" />
+        <ctl name="RX2 Digital Volume" value="80" />
     </path>
 
     <path name="usb-headphones">

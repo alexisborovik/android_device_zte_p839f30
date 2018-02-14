@@ -33,6 +33,13 @@ ro.bluetooth.dun=true
 ro.bluetooth.hfp.ver=1.7
 ro.bluetooth.sap=true
 ro.qualcomm.bt.hci_transport=smd
+ro.qualcomm.bluetooth.ftp=true
+ro.qualcomm.bluetooth.hfp=true
+ro.qualcomm.bluetooth.hsp=true
+ro.qualcomm.bluetooth.map=true
+ro.qualcomm.bluetooth.nap=true
+ro.qualcomm.bluetooth.opp=true
+ro.qualcomm.bluetooth.pbap=true
 
 # Cabl
 ro.qualcomm.cabl=0
@@ -59,7 +66,7 @@ persist.hwc.ptor.enable=true
 ro.opengles.version=196610
 debug.enable.sglscale=1
 vidc.enc.narrow.searchrange=1
-ro.sf.lcd_density=480
+ro.sf.lcd_density=320
 
 # Enable B service
 ro.sys.fw.bservice_enable=true
@@ -121,28 +128,30 @@ persist.rild.nitz_short_ons_3=
 # Perf
 ro.core_ctl_min_cpu=2
 ro.core_ctl_max_cpu=4
-o.min_freq_0=960000
+ro.min_freq_0=960000
 ro.min_freq_4=800000
 ro.vendor.extension_library=libqti-perfd-client.so
 
-# Radio
-DEVICE_PROVISIONED=1
-persist.env.c.phone.matchnum=7
-persist.dbg.volte_avail_ovr=1
-persist.radio.apm_sim_not_pwdn=1
-persist.radio.calls.on.car=false
-persist.radio.calls.on.sip=true
-persist.radio.calls.on.ect=true
-persist.radio.calls.on.vm=true
-persist.radio.callsettings.TTY=false
-persist.radio.use_se_table_only=1
+# Storage
+ro.sdcardfs.enable=true
+
+# Telephony
 rild.libpath=/system/vendor/lib/libril-qc-qmi-1.so
 rild.libargs=-d /dev/smd0
 ril.subscription.types=NV,RUIM
+persist.data.netmgrd.qos.enable=true
+telephony.lteOnCdmaDevice=1
+persist.radio.rat_on=combine
+persist.data.qmi.adb_logmask=0
+persist.radio.apm_sim_not_pwdn=1
+persist.radio.sib16_support=1
+persist.radio.multisim.config=dsds
+persist.env.spec=Default
+persist.radio.mode_pref_nv10=0
+persist.radio.proc_nw_scan=1
+persist.radio.disable_flexmap=1
 ro.telephony.call_ring.multiple=false
-ro.telephony.default_network=9
-ro.use_data_netmgrd=true
-telephony.lteOnCdmaDevice=0
+ro.telephony.ril.config=simactivation
 
 # Time
 persist.timed.enable=true
@@ -151,11 +160,13 @@ persist.timed.enable=true
 ro.disableWifiApFirmwareReload=true
 wifi.interface=wlan0
 
+# USB
+ro.sys.usb.default.config=diag,serial_smd,serial_tty,mass_storage,adb
+
 # ZTE_ADDITIONAL_BUILD_PROPERTIES
-persist.nfc.smartcard.config=SIM1
+#persist.nfc.smartcard.config=SIM1
 drm.service.enabled=true
 persist.radio.apn_delay=5000
-ro.streaming.ua.prof=http://www.zte.com.cn/mobile/uaprof/Vodafone_Smart_ultra_6.xml
 dolby.monospeaker=true
 dalvik.vm.heapgrowthlimit=128m
 dalvik.vm.heapminfree=6m
@@ -169,7 +180,7 @@ dalvik.vm.heapsize=256m
 dalvik.vm.heaptargetutilization=0.75
 dalvik.vm.heapmaxfree=8m
 persist.sys.dalvik.vm.lib.2=libart
-net.bt.name=SmartUltra6
+net.bt.name=Blade-S6
 ro.qcom.ad=1
 ro.qcom.ad.calib.data=/system/vendor/etc/calib_v55.cfg
 ro.config.zram=true

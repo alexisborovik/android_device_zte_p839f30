@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="config_notificationsBatteryLowARGB">0xff00ff00</integer>
-    <integer name="config_notificationsBatteryMediumARGB">0xff00ff00</integer>
-    <integer name="config_notificationsBatteryFullARGB">0xff00ff00</integer>
+    <integer name="config_notificationsBatteryLowARGB">0xffff0000</integer>
+    <integer name="config_notificationsBatteryMediumARGB">0xffff0000</integer>
+    <integer name="config_notificationsBatteryFullARGB">0xff000000</integer>
 </resources>
