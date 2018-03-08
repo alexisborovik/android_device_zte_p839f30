@@ -40,17 +40,21 @@ TARGET_BOOTLOADER_BOARD_NAME := MSM8916
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
 
+# Cpusets
+ENABLE_CPUSETS := true
+
 # Kernel
 BOARD_DTBTOOL_ARGS := -2
 BOARD_KERNEL_BASE := 0x80000000
-BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.selinux=permissive androidboot.hardware=qcom user_debug=30 msm_rtb.filter=0x3F ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom user_debug=30 msm_rtb.filter=0x3F ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_KERNEL_TAGS_OFFSET := 0x01000000
 BOARD_RAMDISK_OFFSET     := 0x00000100
 TARGET_KERNEL_ARCH := arm
 TARGET_KERNEL_CONFIG := p839f30_defconfig
-TARGET_KERNEL_SOURCE := kernel/zte/android_kernel_vodafone_p839v55
+#TARGET_KERNEL_SOURCE := kernel/zte/android_kernel_vodafone_p839v55
+TARGET_KERNEL_SOURCE := kernel/zte/msm8939_piccolo
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := $(PWD)/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin/arm-eabi-
 
 # Assert
@@ -77,13 +81,16 @@ FEATURE_QCRIL_UIM_SAP_SERVER_MODE := true
 # Camera
 USE_DEVICE_SPECIFIC_CAMERA := true
 TARGET_HAS_LEGACY_CAMERA_HAL1 := true
+BOARD_GLOBAL_CFLAGS += -DCAMERA_VENDOR_L_COMPAT
 
 # Charger
 BOARD_CHARGER_DISABLE_INIT_BLANK := true
 
 # CMHW
 BOARD_USES_CYANOGEN_HARDWARE := true
-BOARD_HARDWARE_CLASS += hardware/cyanogen/cmhw
+BOARD_HARDWARE_CLASS += \
+    hardware/cyanogen/cmhw \
+$(VENDOR_PATH)/cmhw
 
 # Add suffix variable to uniquely identify the board
 TARGET_BOARD_SUFFIX := _32
@@ -93,12 +100,13 @@ TARGET_HW_DISK_ENCRYPTION := true
 
 # Dex
 ifeq ($(HOST_OS),linux)
-  ifeq ($(TARGET_BUILD_VARIANT),user)
+  ifneq ($(TARGET_BUILD_VARIANT),eng)
     ifeq ($(WITH_DEXPREOPT),)
-      WITH_DEXPREOPT := true
+      #WITH_DEXPREOPT := true
     endif
   endif
 endif
+WITH_DEXPREOPT_BOOT_IMG_ONLY ?= true
 
 # Display
 MAX_EGL_CACHE_KEY_SIZE := 12*1024
@@ -142,6 +150,7 @@ TARGET_KEYMASTER_WAIT_FOR_QSEE := true
 MALLOC_SVELTE := true
 
 # Power
+TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(VENDOR_PATH)/power/power_ext.c
 TARGET_POWERHAL_VARIANT := qcom
 
 # QCAV
@@ -172,6 +181,9 @@ BOARD_SEPOLICY_DIRS += \
 
 # Video
 TARGET_HAVE_SIGNED_VENUS_FW := true
+
+# Touchscreen
+TARGET_TAP_TO_WAKE_NODE := "/sys/syna_wake_gesture/wake_gesture"
 
 # Widevine
 BOARD_WIDEVINE_OEMCRYPTO_LEVEL := 3

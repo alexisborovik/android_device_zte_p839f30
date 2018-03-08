@@ -215,7 +215,7 @@ PRODUCT_COPY_FILES += \
 
 # Power HAL
 PRODUCT_PACKAGES += \
-    power.qcom
+    power.msm8916
 
 # QCAV
 PRODUCT_PACKAGES += \
