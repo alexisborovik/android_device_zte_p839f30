@@ -226,7 +226,7 @@ bin/netmgrd:vendor/bin/netmgrd
 bin/qmuxd:vendor/bin/qmuxd
 bin/radish:vendor/bin/radish
 bin/rmt_storage:vendor/bin/rmt_storage
-vendor/lib/libcneapiclient.so
+vendor/lib/libcneapiclient.so|bc72c9476b60a12bbb6c4c56038ff3bc8234c178
 vendor/lib/libconfigdb.so
 vendor/lib/libdsi_netctrl.so
 vendor/lib/liblqe.so
@@ -237,7 +237,7 @@ vendor/lib/libril-qc-qmi-1.so
 vendor/lib/libril-qc-radioconfig.so
 vendor/lib/libril-qcril-hook-oem.so
 vendor/lib/librilqmiservices.so
-vendor/lib/libsettings.so
+vendor/lib/libsettings.so|50532a1a88bd3d785eb5ecc500788763c582e442
 vendor/lib/libsmemlog.so
 vendor/lib/libsystem_health_mon.so
 vendor/lib/libxml.so
