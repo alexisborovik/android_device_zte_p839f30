@@ -63,6 +63,7 @@ extract "$MY_DIR"/proprietary-files.txt "$SRC" "$SECTION"
 DEVICE_BLOB_ROOT="$LINEAGE_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary
 
 sed -i "s|/system/etc|/vendor/etc|g" "$DEVICE_BLOB_ROOT"/vendor/lib/libdsi_netctrl.so
+sed -i 's|/system/build.prop|/vendor/etc/hdrhax|g' "$DEVICE_BLOB_ROOT"/vendor/lib/libmmcamera_imglib.so
 sed -i 's|/system/etc|/vendor/etc|g' "$DEVICE_BLOB_ROOT"/vendor/bin/netmgrd
 sed -i 's|/system/etc|/vendor/etc|g' "$DEVICE_BLOB_ROOT"/vendor/bin/qmuxd
 sed -i 's|/system/etc|/vendor/etc|g' "$DEVICE_BLOB_ROOT"/vendor/bin/thermal-engine
