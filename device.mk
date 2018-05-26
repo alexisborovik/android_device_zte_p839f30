@@ -71,11 +71,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.opengles.aep.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.opengles.aep.xml
 
-# Qualcomm
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.qcom.ad.calib.data=/data/misc/display/calib.cfg \
-    ro.qcom.ad=1 \
-    ro.qualcomm.cabl=2
+# Properties
+-include $(LOCAL_PATH)/vendor_prop.mk
 
 # Ramdisk
 PRODUCT_PACKAGES += \
