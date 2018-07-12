@@ -182,7 +182,6 @@ dalvik.vm.heapmaxfree=8m
 persist.sys.dalvik.vm.lib.2=libart
 net.bt.name=Blade-S6
 ro.qcom.ad=1
-ro.qcom.ad.calib.data=/system/vendor/etc/calib_v55.cfg
 ro.config.zram=true
 ro.com.google.clientidbase.ms=android-zte
 ro.com.google.clientidbase.yt=android-zte

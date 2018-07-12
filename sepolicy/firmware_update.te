@@ -1,0 +1,8 @@
+type firmware_update, domain;
+type firmware_update_exec, exec_type, file_type;
+init_daemon_domain(firmware_update);
+
+allow firmware_update self:capability { dac_read_search dac_override };
+allow firmware_update cache_file:dir r_dir_perms;
+
+allow firmware_update diag_device:chr_file rw_file_perms;

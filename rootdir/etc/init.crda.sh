@@ -1,4 +1,5 @@
-# Copyright (c) 2009-2012, 2014, The Linux Foundation. All rights reserved.
+#!/system/bin/sh
+# Copyright (c) 2012, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -25,29 +26,9 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-on fs
-    write /sys/class/android_usb/android0/iProduct Blade-S6
-
-on post-fs-data
-
-    # Tap To Wake
-    chown root system /sys/syna_wake_gesture/wake_gesture
-    chmod 0660 /sys/syna_wake_gesture/wake_gesture
-
-    # Disable Keys
-    chown root system /sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/disable_keys
-    chmod 0660 /sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/disable_keys
-
-    # Configpanel
-    #mkdir /data/tp 0775 system system
-    #chown system system /sys/bus/i2c/devices/5-002c/input/input2
-    #symlink /sys/bus/i2c/devices/5-002c/input/input2 /data/tp/swap_buttons
-    #tp
-    #mkdir persist/tp 0777 system system
-    #mkdir persist/tp/detect 0777 system system
-
-
-service msm_irqbalance /system/bin/msm_irqbalance -f /system/etc/msm_irqbalance.conf
-    class core
-    user root
-    group root
+country=`getprop wlan.crda.country`
+# crda takes input in COUNTRY environment variable
+if [ $country != "" ]
+then
+COUNTRY="$country" /system/bin/crda
+fi

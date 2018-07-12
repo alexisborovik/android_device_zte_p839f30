@@ -30,6 +30,7 @@ import init.target.rc
 import init.qcom.usb.rc
 
 on early-init
+    mount debugfs debugfs /sys/kernel/debug
     write /sys/block/mmcblk0/queue/scheduler noop
 
 on init
@@ -41,7 +42,9 @@ on init
 
 on fs
     mount_all fstab.qcom
+    swapon_all fstab.qcom
     restorecon_recursive /persist
+    setprop ro.crypto.fuse_sdcard true
 
 on early-boot
     # Set RLIMIT_MEMLOCK to 64MB
@@ -52,27 +55,23 @@ on early-boot
     write /sys/module/pil_msa/parameters/pbl_mba_boot_timeout_ms ${persist.sys.mba_boot_timeout}
     write /sys/module/pil_msa/parameters/modem_auth_timeout_ms ${persist.sys.modem_auth_timeout}
     write /sys/module/peripheral_loader/parameters/proxy_timeout_ms ${persist.sys.pil_proxy_timeout}
-
     write /sys/kernel/boot_adsp/boot 1
-    chown root audio /sys/kernel/boot_adsp/boot
 
 on boot
-    chown system system /sys/module/radio_iris_transport/parameters/fmsmd_set
-    chmod 0660 /sys/module/radio_iris_transport/parameters/fmsmd_set
-
     # Enable writing to led breathing node from userspace
+    chown system system /sys/class/leds/middle/breathing
+    chown system system /sys/class/leds/left/breathing
+    chown system system /sys/class/leds/right/breathing
     chown system system /sys/class/leds/left/brightness
     chown system system /sys/class/leds/middle/brightness
     chown system system /sys/class/leds/right/brightness
-    chown system system /sys/class/leds/left/breathing
-    chown system system /sys/class/leds/middle/breathing
-    chown system system /sys/class/leds/right/breathing
     chown system system /sys/class/leds/flashlight/brightness
     chown system system /sys/class/leds/flashlight-front/brightness
     chown system camera /sys/class/leds/torch-light0/brightness
     chmod 0660 /sys/class/leds/torch-light0/brightness
+    chmod 0666 /sys/class/leds/flashlight/brightness
 
-    #[ECID:000000] ZTEBSP wanghaifei 20140905 start, for sensor init
+	#[ECID:000000] ZTEBSP wanghaifei 20140905 start, for sensor init
     chown system root /sys/class/i2c-adapter/i2c-0/0-0039/prox_enable
     chown system root /sys/class/i2c-adapter/i2c-0/0-0039/prox_cal
     chown system root /sys/class/i2c-adapter/i2c-0/0-0039/als_enable
@@ -116,6 +115,14 @@ on boot
 
     # To allow interfaces to get v6 address when tethering is enabled
     write /proc/sys/net/ipv6/conf/rmnet0/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet1/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet2/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet3/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet4/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet5/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet6/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet7/accept_ra 2
+    write /proc/sys/net/ipv6/conf/rmnet_usb0/accept_ra 2
 
     # To prevent out of order acknowledgements from making
     # connection tracking to treat them as not belonging to
@@ -140,32 +147,36 @@ on boot
     chown system system /proc/ctp_if_upgrade_version
     chown system system /proc/ctp_if_upgrade_old_version
 
+#added from org B12 - USB
+    chmod 0444 /sys/devices/platform/msm_hsusb/gadget/usb_state
+#For bridgemgr daemon to inform the USB driver of the correct transport
+    chown radio radio /sys/class/android_usb/f_rmnet_smd_sdio/transport
+# External SD scheduler
+#    chown system system /sys/block/mmcblk1/queue/scheduler
+#    chmod 0664 /sys/block/mmcblk1/queue/scheduler
+#    restorecon /sys/block/mmcblk1/queue/scheduler
+# Tap-To-Wake
+#    chown system system /sys/syna_wake_gesture/wake_gesture
+
+    # button swap
+    chown root system /sys/bus/i2c/devices/5-002c/input/input2/swap_buttons
+    chmod 0660 /sys/bus/i2c/devices/5-002c/input/input2/swap_buttons
+
 on post-fs-data
+    mkdir /data/media 0770 media_rw media_rw
+
     mkdir /persist/data/sfs 0700 system system
     mkdir /persist/data/tz 0700 system system
-
-    # Create directory for TZ Apps
-    mkdir /data/misc/qsee 0770 system system
-
-    # we will remap this as /mnt/sdcard with the sdcard fuse tool
-    mkdir /data/misc/camera 0770 camera camera
-
-    mkdir /data/misc/ipa 0700 net_admin net_admin
-
-    mkdir /data/misc/bluetooth 0770 bluetooth bluetooth
-
-    # Create the directories used by the Wireless subsystem
-    mkdir /data/misc/wifi 0770 wifi wifi
-    mkdir /data/misc/wifi/sockets 0770 wifi wifi
-    mkdir /data/misc/wifi/wpa_supplicant 0770 wifi wifi
-    mkdir /data/misc/dhcp 0770 dhcp dhcp
-    chown dhcp dhcp /data/misc/dhcp
 
     # Create directory used by audio subsystem
     mkdir /data/misc/audio 0770 audio audio
 
     # Create directory used by the DASH client
     mkdir /data/misc/dash 0770 media audio
+
+    # Create directory used by display clients
+    mkdir /data/misc/display 0770 system graphics
+    mkdir /persist/display 0770 system graphics
 
     # Create directories for Location services
     mkdir /data/misc/location 0770 gps gps
@@ -176,6 +187,7 @@ on post-fs-data
     mkdir /data/misc/location/gsiff 0770 gps gps
 
     # Create directory for hostapd
+    mkdir /data/misc/wifi 0770 wifi wifi
     mkdir /data/hostapd 0770 system wifi
 
     # Create /data/time folder for time-services
@@ -185,22 +197,19 @@ on post-fs-data
 
     setprop vold.post_fs_data_done 1
 
-    # Create BST sensord file
-    mkdir /data/misc/sensor 0755 system system
-    chown system system /data/misc/sensor
-    chmod 0755 /data/misc/sensor
-    restorecon_recursive /data/misc/sensor
-    
-    # Factory gsensor calibrate
-    chown system system /persist/g_sensor_correct
+    # Create a folder for SRS to be able to create a usercfg file
+    mkdir /data/data/media 0770 media media
 
     # Sensor
     mkdir /persist/sensors 0770 system system
  
     # Create folder for mm-qcamera-daemon
     mkdir /data/camera 0770 media camera
+    mkdir /data/misc/camera 0770 camera camera
 
     # Create PERFD deamon related dirs
+    mkdir /data/misc/perfd 0755 root system
+    chmod 2755 /data/misc/perfd
     mkdir /data/system/perfd 0770 root system
     chmod 2770 /data/system/perfd
     mkdir /persist/drm 0770 system system
@@ -212,6 +221,10 @@ on post-fs-data
     # Color calibration control
     chown system system /sys/devices/virtual/graphics/fb0/rgb
     chmod 0660 /sys/devices/virtual/graphics/fb0/rgb
+
+    # Tap To Wake
+    chown root system /sys/syna_wake_gesture/wake_gesture
+    chmod 0660 /sys/syna_wake_gesture/wake_gesture
 
     # Vibrator
     chown system system /sys/class/timed_output/vibrator/vtg_level
@@ -237,11 +250,18 @@ service rmt_storage /system/bin/rmt_storage
     user root
     group system wakelock
 
-service config_bt_addr /system/bin/btnvtool -O
+service rfs_access /system/bin/rfs_access
+   class core
+   user root
+   group system net_raw
+
+service config_bluetooth /system/bin/sh /system/etc/init.qcom.bt.sh "onboot"
     class core
-    user bluetooth
-    group bluetooth radio
+    user root
     oneshot
+
+on property:vold.decrypt=trigger_restart_framework
+    start config_bluetooth
 
 service hciattach /system/bin/sh /system/etc/init.qcom.bt.sh
     class late_start
@@ -305,6 +325,76 @@ service wpa_supplicant /system/bin/wpa_supplicant \
     disabled
     oneshot
 
+on property:init.svc.wpa_supplicant=stopped
+    stop dhcpcd
+
+service dhcpcd_wlan0 /system/bin/dhcpcd -ABKLG
+    class late_start
+    disabled
+    oneshot
+
+service dhcpcd_p2p /system/bin/dhcpcd -ABKLG
+    class late_start
+    disabled
+    oneshot
+
+service iprenew_wlan0 /system/bin/dhcpcd -n
+    class late_start
+    disabled
+    oneshot
+
+service iprenew_p2p /system/bin/dhcpcd -n
+    class late_start
+    disabled
+    oneshot
+
+service ptt_socket_app /system/bin/ptt_socket_app -d
+    class main
+    user root
+    group root
+    oneshot
+
+service ptt_ffbm /system/bin/ptt_socket_app -f -d
+    user root
+    group root
+    disabled
+    oneshot
+
+service dhcpcd_bt-pan /system/bin/dhcpcd -BKLG
+    class late_start
+    disabled
+    oneshot
+
+service iprenew_bt-pan /system/bin/dhcpcd -n
+    class late_start
+    disabled
+    oneshot
+
+service dhcpcd_bnep0 /system/bin/dhcpcd -BKLG
+    disabled
+    oneshot
+
+service dhcpcd_bnep1 /system/bin/dhcpcd -BKLG
+    disabled
+    oneshot
+
+service dhcpcd_bnep2 /system/bin/dhcpcd -BKLG
+    disabled
+    oneshot
+
+service dhcpcd_bnep3 /system/bin/dhcpcd -BKLG
+    disabled
+    oneshot
+
+service dhcpcd_bnep4 /system/bin/dhcpcd -BKLG
+    disabled
+    oneshot
+
+service loc_launcher /system/bin/loc_launcher
+    #loc_launcher will start as root and set its uid to gps
+    class late_start
+    group gps inet net_raw qcom_diag net_admin wifi
+
 service hostapd /system/bin/hostapd -dd /data/hostapd/hostapd.conf
     class late_start
     user root
@@ -329,24 +419,24 @@ service qseecomd /system/bin/qseecomd
     user root
     group root
 
-service perfd /system/vendor/bin/perfd
+service perfd /system/bin/perfd
    class main
    user root
    disabled
    socket perfd seqpacket 0666 root system
 
-service thermal-engine /system/vendor/bin/thermal-engine
-   class main
-   user root
-   socket thermal-send-client stream 0666 system system
-   socket thermal-recv-client stream 0660 system system
-   socket thermal-recv-passive-client stream 0666 system system
-   group root
+service thermal-engine /system/bin/thermal-engine
+    class main
+    user root
+    socket thermal-send-client stream 0666 system system
+    socket thermal-recv-client stream 0660 system system
+    socket thermal-recv-passive-client stream 0666 system system
+    group root
 
 service time_daemon /system/bin/time_daemon
-   class late_start
-   user root
-   group root
+    class late_start
+    user root
+    group root
 
 service audiod /system/bin/audiod
    class late_start
@@ -377,18 +467,11 @@ service charger /charger
     group system graphics
     seclabel u:r:healthd:s0
 
-#service adjust_settings /system/bin/adjust_settings
-#    class main
-#    user root
-#    disabled
-#    oneshot
+on charger
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor powersave
 
 on property:sys.boot_completed=1
     start adjust_settings
-
-#service set_sn /system/bin/adjust_serialno setsn
-#    disabled
-#    oneshot
 
 on property:sys.sn_set=1
     start set_sn

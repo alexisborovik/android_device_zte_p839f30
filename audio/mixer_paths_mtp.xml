@@ -22,16 +22,16 @@
     <ctl name="TTY Mode" value="Off" />
     <ctl name="HPHL Volume" value="9" />
     <ctl name="HPHR Volume" value="9" />
-    <ctl name="RX1 Digital Volume" value="95" />
-    <ctl name="RX2 Digital Volume" value="95" />
-    <ctl name="RX3 Digital Volume" value="95" />
+    <ctl name="RX1 Digital Volume" value="84" />
+    <ctl name="RX2 Digital Volume" value="84" />
+    <ctl name="RX3 Digital Volume" value="84" />
     <ctl name="IIR1 INP1 Volume" value="84" />
     <ctl name="IIR1 INP2 Volume" value="84" />
     <ctl name="IIR1 INP3 Volume" value="84" />
     <ctl name="IIR1 INP4 Volume" value="84" />
-    <ctl name="ADC1 Volume" value="4" />
-    <ctl name="ADC2 Volume" value="4" />
-    <ctl name="ADC3 Volume" value="4" />
+    <ctl name="ADC1 Volume" value="6" />
+    <ctl name="ADC2 Volume" value="6" />
+    <ctl name="ADC3 Volume" value="6" />
     <ctl name="DEC1 Volume" value="84" />
     <ctl name="DEC2 Volume" value="84" />
     <ctl name="DEC2 MUX" value="ZERO" />
@@ -52,8 +52,16 @@
     <ctl name="HPHL" value="ZERO" />
     <ctl name="HPHR" value="ZERO" />
     <ctl name="SPK DAC Switch" value="0" />
+<!-- zte weiguohua add it for ear speaker boost 5v begin  20150205-->
+    <!-- <ctl name="Speaker Boost" value="ENABLE" /> -->
+    <ctl name="Speaker Boost" value="DISABLE" />
+<!-- zte weiguohua add it for speaker boost 5v  end  20150205-->
+    <ctl name="MICBIAS CAPLESS Switch" value="0" />
     <ctl name="EAR PA Gain" value="POS_1P5_DB" />
-    <ctl name="EAR PA Boost" value="ENABLE" />
+<!-- zte weiguohua add it for ear speaker boost 5v begin  20150205-->
+    <!-- <ctl name="EAR PA Boost" value="ENABLE" />  -->
+    <ctl name="EAR PA Boost" value="DISABLE" />
+<!-- zte weiguohua add it for ear speaker boost 5v  end  20150205-->
     <ctl name="MI2S_RX Channels" value="One" />
     <ctl name="MI2S_TX Channels" value="One" />
 
@@ -71,6 +79,22 @@
     <ctl name="PRI_MI2S_RX_Voice Mixer CSVoice" value="0" />
     <ctl name="Voice_Tx Mixer TERT_MI2S_TX_Voice" value="0" />
     <ctl name="PRI_MI2S_RX Port Mixer INT_BT_SCO_TX" value="0" />
+	
+    <!-- deepbuffer zte hifi play music  zte weiguohua add it for zte hifi music  begin  20141113-->
+    <ctl name="AK4375 BICK Frequency Select" value="64fs" />
+    <ctl name="AK4375 HP-Amp Analog Volume" value="19" />
+	
+    <ctl name="AK4375 HPL Mixer LDACL" value="0" />
+	<ctl name="AK4375 HPR Mixer RDACR" value="0" />
+	<ctl name="AK4375 DAC MUX" value="SDTI" />	
+	
+    <ctl name="ZTE HPH Switch" value="PMIC" />
+	
+    <ctl name="QUAT_MI2S_RX Audio Mixer MultiMedia1" value="0" />
+    <ctl name="QUAT_MI2S_RX Audio Mixer MultiMedia4" value="0" />
+    <ctl name="QUAT_MI2S_RX Audio Mixer MultiMedia5" value="0" />
+    <!-- deepbuffer zte hifi play music  zte weiguohua add it for zte hifi music  end 20141113-->
+	
     <!-- Voice BTSCO -->
     <ctl name="Internal BTSCO SampleRate" value="8000" />
     <ctl name="INTERNAL_BT_SCO_RX_Voice Mixer CSVoice" value="0" />
@@ -180,7 +204,25 @@
     <path name="deep-buffer-playback">
         <ctl name="PRI_MI2S_RX Audio Mixer MultiMedia1" value="1" />
     </path>
-
+    <!-- deepbuffer zte hifi play music  zte weiguohua add it for zte hifi music  begin  20141113-->
+    <path name="deep-buffer-playback-zte-hifi">
+        <ctl name="PRI_MI2S_RX Audio Mixer MultiMedia1" value="0" />
+        <ctl name="QUAT_MI2S_RX Audio Mixer MultiMedia1" value="1" />
+    </path>	
+    <!-- deepbuffer zte hifi play music  zte weiguohua add it for zte hifi music  end  20141113-->
+    <!-- offload zte hifi play music  zte weiguohua add it for zte hifi music  begin  20141113-->
+    <path name="compress-offload-playback-zte-hifi">
+        <ctl name="PRI_MI2S_RX Audio Mixer MultiMedia4" value="0" />
+        <ctl name="QUAT_MI2S_RX Audio Mixer MultiMedia4" value="1" />
+    </path>	
+    <!-- offload zte hifi play music  zte weiguohua add it for zte hifi music  end  20141113-->	
+	
+    <!-- low-latency zte hifi play music  zte weiguohua add it for zte hifi music  begin  20141113-->
+    <path name="low-latency-playback-zte-hifi">
+        <ctl name="PRI_MI2S_RX Audio Mixer MultiMedia5" value="0" />
+	    <ctl name="QUAT_MI2S_RX Audio Mixer MultiMedia5" value="1" />
+    </path>	
+    <!-- low-latency zte hifi play music  zte weiguohua add it for zte hifi music  end  20141113-->	
     <path name="deep-buffer-playback bt-sco">
         <ctl name="INTERNAL_BT_SCO_RX Audio Mixer MultiMedia1" value="1" />
     </path>
@@ -416,13 +458,33 @@
         <path name="incall-rec-uplink-and-downlink" />
     </path>
 
+    <!-- ZTE_MODIFY added by xiaolei for ICMD issue with bt headset connected. begin -->
     <path name="incall_music_uplink">
        <ctl name="Incall_Music Audio Mixer MultiMedia2" value="1" />
+        <ctl name="ADC1 Volume" value="0" />
+        <ctl name="ADC2 Volume" value="0" />
+        <ctl name="ADC3 Volume" value="0" />
+        <ctl name="DEC1 Volume" value="0" />
+        <ctl name="DEC2 Volume" value="0" />
+        <ctl name="RX1 Digital Volume" value="0" />
+        <ctl name="RX2 Digital Volume" value="0" />
+        <ctl name="RX3 Digital Volume" value="0" />
     </path>
+    <!-- ZTE_MODIFY added by xiaolei for ICMD issue with bt headset connected. end -->
 
     <path name="incall_music_uplink2">
         <ctl name="Incall_Music_2 Audio Mixer MultiMedia9" value="1" />
     </path>
+    
+    <!-- ZTE_MODIFY added by xiaolei for ICMD issue with bt headset connected. begin -->
+    <path name="incall_music_uplink bt-sco">
+        <path name="incall_music_uplink" />
+    </path>
+    
+    <path name="incall_music_uplink bt-sco-wb">
+        <path name="incall_music_uplink" />
+    </path>
+    <!-- ZTE_MODIFY added by xiaolei for ICMD issue with bt headset connected. end -->
 
     <path name="volte-call">
         <ctl name="PRI_MI2S_RX_Voice Mixer VoLTE" value="1" />
@@ -479,32 +541,45 @@
         <path name="qchat-call bt-sco" />
     </path>
 
+    <!-- weiguohua modify it add the capeless mode   20140812-->
     <!-- These are actual sound device specific mixer settings -->
     <path name="adc1">
         <ctl name="DEC1 MUX" value="ADC1" />
-		<ctl name="ADC1 Volume" value="6" />
+        <ctl name="MICBIAS CAPLESS Switch" value="1" />	
     </path>
 
     <path name="adc2">
         <ctl name="DEC1 MUX" value="ADC2" />
-		<ctl name="ADC2 Volume" value="6" />
+        <ctl name="MICBIAS CAPLESS Switch" value="1" />
     </path>
 
+    <!-- weiguohua modify it add the capeless mode   20140812-->
     <path name="adc3">
         <ctl name="DEC1 MUX" value="ADC2" />
-		<ctl name="ADC3 Volume" value="6" />
         <ctl name="ADC2 MUX" value="INP3" />
+        <ctl name="MICBIAS CAPLESS Switch" value="1" />
     </path>
 
+     <!-- weiguohua modify it add the aux mic loop begin 20141009-->
+    <path name="aux-mic-loopback">
+        <ctl name="DEC1 MUX" value="ADC2" />
+        <ctl name="ADC2 MUX" value="INP3" />
+		<ctl name="ADC3 Volume" value="1" />
+        <ctl name="MICBIAS CAPLESS Switch" value="1" />
+    </path>	
+    <!-- weiguohua modify it add the aux mic loop end  20141009-->
+	
     <path name="speaker">
         <ctl name="RX3 MIX1 INP1" value="RX1" />
-		<ctl name="RX3 Digital Volume" value="95" />
         <ctl name="SPK DAC Switch" value="1" />
     </path>
 
+    <!-- weiguohua modify it from adc3 TO adc1   20140812-->
+	<!-- weiguohua modify it speaker mic use aux mic  20150105-->
     <path name="speaker-mic">
-        <path name="adc1" />
-        <ctl name="IIR1 INP1 MUX" value="DEC1" />
+        <ctl name="DEC1 MUX" value="ADC2" />
+        <ctl name="ADC2 MUX" value="INP3" />
+        <ctl name="MICBIAS CAPLESS Switch" value="1" />
     </path>
 
     <path name="handset">
@@ -515,6 +590,7 @@
         <ctl name="EAR_S" value="Switch" />
    </path>
 
+    <!-- weiguohua modify it from adc3 TO adc1 20140812-->
     <path name="handset-mic">
         <path name="adc1" />
         <ctl name="IIR1 INP1 MUX" value="DEC1" />
@@ -524,13 +600,24 @@
         <ctl name="MI2S_RX Channels" value="Two" />
         <ctl name="RX1 MIX1 INP1" value="RX1" />
         <ctl name="RX2 MIX1 INP1" value="RX2" />
-        <ctl name="RX1 Digital Volume" value="84" />
-        <ctl name="RX2 Digital Volume" value="84" />
         <ctl name="RDAC2 MUX" value="RX2" />
         <ctl name="HPHL" value="Switch" />
         <ctl name="HPHR" value="Switch" />
+    <!-- deepbuffer zte hifi play music  zte weiguohua add it for zte hifi music  begin  20141113-->		
+        <ctl name="ZTE HPH Switch" value="PMIC" />
+    <!-- deepbuffer zte hifi play music  zte weiguohua add it for zte hifi music  end  20141113-->
     </path>
 
+    <!-- deepbuffer zte hifi play music  zte weiguohua add it for zte hifi music  begin  20141113-->
+    <path name="headset-zte-hifi">
+        <ctl name="AK4375 BICK Frequency Select" value="32fs" />
+        <ctl name="AK4375 HP-Amp Analog Volume" value="19" />
+        <ctl name="AK4375 DAC MUX" value="SDTI" />
+        <ctl name="AK4375 HPL Mixer LDACL" value="1" />
+        <ctl name="AK4375 HPR Mixer RDACR" value="1" />
+        <ctl name="ZTE HPH Switch" value="HIFI" />
+    </path>	
+    <!-- deepbuffer zte hifi play music  zte weiguohua add it for zte hifi music  end  20141113-->
     <path name="headset-mic">
         <path name="adc2" />
         <ctl name="ADC2 MUX" value="INP2" />
@@ -565,7 +652,6 @@
 
     <path name="voice-speaker">
         <path name="speaker" />
-		<ctl name="RX3 Digital Volume" value="95" />
     </path>
 
     <path name="voice-speaker-mic">
@@ -574,8 +660,7 @@
 
     <path name="voice-headphones">
         <path name="headphones" />
-		<ctl name="RX1 Digital Volume" value="80" />
-        <ctl name="RX2 Digital Volume" value="80" />
+        <path name="sidetone-headphone" />
     </path>
 
     <path name="voice-headset-mic">
@@ -585,8 +670,6 @@
     <path name="speaker-and-headphones">
         <path name="speaker" />
         <path name="headphones" />
-		<ctl name="RX1 Digital Volume" value="80" />
-        <ctl name="RX2 Digital Volume" value="80" />
     </path>
 
     <path name="usb-headphones">
@@ -629,6 +712,7 @@
     <path name="capture-fm">
     </path>
 
+    <!-- weiguohua modify it from adc3 TO adc1 20141021-->
     <!-- Dual MIC devices -->
     <path name="speaker-dmic-endfire">
         <path name="adc1" />
@@ -637,19 +721,6 @@
         <ctl name="ADC2 MUX" value="INP3" />
     </path>
 
-  <!-- zte_liyang for aux MIC test -->
-    <path name="aux-mic">
-        <path name="adc3" />
-        <ctl name="DEC2 MUX" value="ADC1" />
-        <ctl name="MI2S_TX Channels" value="Two" />
-    </path>
-
-    <!-- zte_liyang for aux MIC test -->
-    <path name="aux-mic-speaker">
-        <ctl name="RX3 MIX1 INP1" value="RX1" />
-        <ctl name="SPK DAC Switch" value="1" />
-    </path>
-		
     <path name="dmic-endfire">
         <path name="speaker-dmic-endfire" />
     </path>
@@ -705,6 +776,9 @@
     <path name="tty-headphones">
         <ctl name="RX1 MIX1 INP1" value="RX1" />
         <ctl name="HPHL" value="Switch" />
+    <!-- deepbuffer zte hifi play music  zte weiguohua add it for zte hifi music  begin  20141113-->
+        <ctl name="ZTE HPH Switch" value="PMIC" />
+    <!-- deepbuffer zte hifi play music  zte weiguohua add it for zte hifi music  end  20141113-->
     </path>
 
     <path name="voice-tty-full-headphones">
@@ -731,8 +805,9 @@
         <path name="voice-tty-full-headset-mic" />
     </path>
 
+    <!-- weiguohua modify it from adc3 TO adc1 20141021-->
     <path name="voice-tty-vco-handset-mic">
-        <path name="adc3" />
+        <path name="adc1" />
     </path>
 
     <path name="ADSP testfwk">

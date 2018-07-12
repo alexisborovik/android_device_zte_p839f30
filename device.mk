@@ -91,6 +91,8 @@ PRODUCT_COPY_FILES += \
 
 # Camera
 PRODUCT_PACKAGES += \
+	camera.msm8916 \
+    libmm-qcamera \
     Snap
 
 # Charger
@@ -102,6 +104,16 @@ PRODUCT_PACKAGES += \
     libcnefeatureconfig \
     librmnetctl \
     libxml2
+
+# CRDA
+PRODUCT_PACKAGES += \
+    crda \
+    linville.key.pub.pem \
+    regdbdump \
+    regulatory.bin
+
+PRODUCT_PACKAGES += \
+    init.crda.sh
 
 # Data
 PRODUCT_COPY_FILES += \
@@ -133,6 +145,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     FMRadio \
     libfmjni \
+	FM2 \
+    FMRecord \
+    libqcomfm_jni \
     qcom.fmradio
 
 # GPS
@@ -145,9 +160,22 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     gps.msm8916
 
+# IRQ balance
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/msm_irqbalance.conf:system/etc/msm_irqbalance.conf
+
 # IRSC
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sec_config:system/etc/sec_config
+
+# ConfigPanel
+PRODUCT_PACKAGES += \
+ConfigPanel
+
+# Keylayouts
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/keylayout/synaptics_dsx.kl:system/usr/keylayout/synaptics_dsx.kl \
+    $(LOCAL_PATH)/keylayout/Headset.kl:system/usr/keylayout/Headset.kl
 
 # Keystore
 PRODUCT_PACKAGES += \
@@ -189,27 +217,6 @@ PRODUCT_PACKAGES += \
     libstagefright_soft_flacdec
 
 # Miscellaneous
-PRODUCT_PACKAGES += \
-    hsic.control.bt.sh \
-    init.ath3k.bt.sh \
-    init.btprop.sh \
-    init.crda.sh \
-    init.qcom.audio.sh \
-    init.qcom.bt.sh \
-    init.qcom.coex.sh \
-    init.qcom.efs.sync.sh \
-    init.qcom.fm.sh \
-    init.qcom.modem_links.sh \
-    init.qcom.wifi.sh \
-    init.qcom.post_boot.sh \
-    init.qcom.sdio.sh \
-    init.qcom.uicc.sh \
-    init.qcom.zram.sh \
-    init.qti.ims.sh \
-    init.wlanprop.sh \
-    qca6234-service.sh \
-    touchscreengesture.sh
-
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/mmi.cfg:system/etc/mmi.cfg
 
@@ -229,25 +236,29 @@ PRODUCT_BOOT_JARS += \
 
 # Ramdisk
 PRODUCT_PACKAGES += \
-    init.class_main.sh \
-    init.mdm.sh \
-    init.qcom.bms.sh \
-    init.qcom.class_core.sh \
-    init.qcom.early_boot.sh \
-    init.qcom.sh \
-    init.qcom.syspart_fixup.sh \
-    init.qcom.usb.sh \
-    init.qcom.usb_zte.sh
+    init.qcom.bt.sh \
+    init.qcom.fm.sh \
+    touchscreengesture.sh
 
 PRODUCT_PACKAGES += \
     fstab.qcom \
-    init.offcharge.rc \
-    init.qcom.factory.rc \
+    init.qcom.power.rc \
     init.qcom.rc \
+    init.qcom.ssr.rc \
     init.qcom.usb.rc \
-    init.recovery.qcom.rc \
     init.target.rc \
     ueventd.qcom.rc
+
+# Thermal
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/thermal-engine.conf:system/etc/thermal-engine.conf
+
+# USB
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.sys.isUsbOtgEnabled=1
+
+PRODUCT_PACKAGES += \
+    com.android.future.usb.accessory
 
 # Recovery
 PRODUCT_PACKAGES += \
@@ -269,6 +280,7 @@ PRODUCT_PACKAGES += \
 
 # Wifi
 PRODUCT_PACKAGES += \
+    libcurl \
     libqsap_sdk \
     libQWiFiSoftApCfg \
     libwpa_client \

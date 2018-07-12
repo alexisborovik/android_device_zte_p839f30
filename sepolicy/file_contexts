@@ -4,6 +4,7 @@
 
 # FRP
 /dev/block/bootdevice/by-name/config		u:object_r:frp_block_device:s0
+/dev/block/platform/soc.0/7824900.sdhci/by-name/persist		u:object_r:persist_block_device:s0
 
 # Sensors
 /dev/akm09911					u:object_r:sensors_device:s0
@@ -14,3 +15,9 @@
 
 # WiFi
 /persist/wifimac.dat				u:object_r:wifi_data_file:s0
+
+#Touch Panel
+/sys/bus/i2c/devices/5-002c/input/input2/swap_buttons   u:object_r:touchpanel_sysfs:s0
+
+# Sensor Hub firmware updater
+/system/bin/firmware_update			u:object_r:firmware_update_exec:s0
