@@ -29,9 +29,9 @@
     <ctl name="IIR1 INP2 Volume" value="84" />
     <ctl name="IIR1 INP3 Volume" value="84" />
     <ctl name="IIR1 INP4 Volume" value="84" />
-    <ctl name="ADC1 Volume" value="6" />
-    <ctl name="ADC2 Volume" value="6" />
-    <ctl name="ADC3 Volume" value="6" />
+    <ctl name="ADC1 Volume" value="4" />
+    <ctl name="ADC2 Volume" value="4" />
+    <ctl name="ADC3 Volume" value="4" />
     <ctl name="DEC1 Volume" value="84" />
     <ctl name="DEC2 Volume" value="84" />
     <ctl name="DEC2 MUX" value="ZERO" />
@@ -52,16 +52,10 @@
     <ctl name="HPHL" value="ZERO" />
     <ctl name="HPHR" value="ZERO" />
     <ctl name="SPK DAC Switch" value="0" />
-<!-- zte weiguohua add it for ear speaker boost 5v begin  20150205-->
-    <!-- <ctl name="Speaker Boost" value="ENABLE" /> -->
     <ctl name="Speaker Boost" value="DISABLE" />
-<!-- zte weiguohua add it for speaker boost 5v  end  20150205-->
     <ctl name="MICBIAS CAPLESS Switch" value="0" />
     <ctl name="EAR PA Gain" value="POS_1P5_DB" />
-<!-- zte weiguohua add it for ear speaker boost 5v begin  20150205-->
-    <!-- <ctl name="EAR PA Boost" value="ENABLE" />  -->
     <ctl name="EAR PA Boost" value="DISABLE" />
-<!-- zte weiguohua add it for ear speaker boost 5v  end  20150205-->
     <ctl name="MI2S_RX Channels" value="One" />
     <ctl name="MI2S_TX Channels" value="One" />
 
@@ -458,33 +452,13 @@
         <path name="incall-rec-uplink-and-downlink" />
     </path>
 
-    <!-- ZTE_MODIFY added by xiaolei for ICMD issue with bt headset connected. begin -->
     <path name="incall_music_uplink">
        <ctl name="Incall_Music Audio Mixer MultiMedia2" value="1" />
-        <ctl name="ADC1 Volume" value="0" />
-        <ctl name="ADC2 Volume" value="0" />
-        <ctl name="ADC3 Volume" value="0" />
-        <ctl name="DEC1 Volume" value="0" />
-        <ctl name="DEC2 Volume" value="0" />
-        <ctl name="RX1 Digital Volume" value="0" />
-        <ctl name="RX2 Digital Volume" value="0" />
-        <ctl name="RX3 Digital Volume" value="0" />
     </path>
-    <!-- ZTE_MODIFY added by xiaolei for ICMD issue with bt headset connected. end -->
 
     <path name="incall_music_uplink2">
         <ctl name="Incall_Music_2 Audio Mixer MultiMedia9" value="1" />
     </path>
-    
-    <!-- ZTE_MODIFY added by xiaolei for ICMD issue with bt headset connected. begin -->
-    <path name="incall_music_uplink bt-sco">
-        <path name="incall_music_uplink" />
-    </path>
-    
-    <path name="incall_music_uplink bt-sco-wb">
-        <path name="incall_music_uplink" />
-    </path>
-    <!-- ZTE_MODIFY added by xiaolei for ICMD issue with bt headset connected. end -->
 
     <path name="volte-call">
         <ctl name="PRI_MI2S_RX_Voice Mixer VoLTE" value="1" />
@@ -541,7 +515,6 @@
         <path name="qchat-call bt-sco" />
     </path>
 
-    <!-- weiguohua modify it add the capeless mode   20140812-->
     <!-- These are actual sound device specific mixer settings -->
     <path name="adc1">
         <ctl name="DEC1 MUX" value="ADC1" />
@@ -553,44 +526,43 @@
         <ctl name="MICBIAS CAPLESS Switch" value="1" />
     </path>
 
-    <!-- weiguohua modify it add the capeless mode   20140812-->
     <path name="adc3">
         <ctl name="DEC1 MUX" value="ADC2" />
         <ctl name="ADC2 MUX" value="INP3" />
         <ctl name="MICBIAS CAPLESS Switch" value="1" />
     </path>
 
-     <!-- weiguohua modify it add the aux mic loop begin 20141009-->
     <path name="aux-mic-loopback">
         <ctl name="DEC1 MUX" value="ADC2" />
         <ctl name="ADC2 MUX" value="INP3" />
 		<ctl name="ADC3 Volume" value="1" />
         <ctl name="MICBIAS CAPLESS Switch" value="1" />
-    </path>	
-    <!-- weiguohua modify it add the aux mic loop end  20141009-->
-	
+    </path>
+
     <path name="speaker">
         <ctl name="RX3 MIX1 INP1" value="RX1" />
+		<ctl name="RX3 Digital Volume" value="84" />
         <ctl name="SPK DAC Switch" value="1" />
     </path>
 
-    <!-- weiguohua modify it from adc3 TO adc1   20140812-->
-	<!-- weiguohua modify it speaker mic use aux mic  20150105-->
+    <path name="speaker-for-ringtone">
+        <path name="speaker" />
+    </path>
+
     <path name="speaker-mic">
-        <ctl name="DEC1 MUX" value="ADC2" />
-        <ctl name="ADC2 MUX" value="INP3" />
-        <ctl name="MICBIAS CAPLESS Switch" value="1" />
+        <path name="adc1" />
+		<ctl name="RX3 Digital Volume" value="84" />
+		<ctl name="ADC1 Volume" value="1" />
+        <ctl name="IIR1 INP1 MUX" value="DEC1" />
     </path>
 
     <path name="handset">
         <ctl name="RX1 MIX1 INP1" value="RX1" />
         <ctl name="RDAC2 MUX" value="RX1" />
-        <ctl name="RX1 Digital Volume" value="84" />
         <ctl name="EAR PA Gain" value="POS_6_DB" />
         <ctl name="EAR_S" value="Switch" />
    </path>
 
-    <!-- weiguohua modify it from adc3 TO adc1 20140812-->
     <path name="handset-mic">
         <path name="adc1" />
         <ctl name="IIR1 INP1 MUX" value="DEC1" />
@@ -618,6 +590,17 @@
         <ctl name="ZTE HPH Switch" value="HIFI" />
     </path>	
     <!-- deepbuffer zte hifi play music  zte weiguohua add it for zte hifi music  end  20141113-->
+
+    <path name="headphones-three-poles">
+        <path name="headphones" />
+    </path>
+
+    <path name="headphones-for-ringtone">
+        <path name="headphones" />
+        <ctl name="RX1 Digital Volume" value="64" />
+        <ctl name="RX2 Digital Volume" value="64" />
+    </path>
+
     <path name="headset-mic">
         <path name="adc2" />
         <ctl name="ADC2 MUX" value="INP2" />
@@ -650,12 +633,30 @@
         <path name="handset" />
     </path>
 
+    <path name="handset-for-voip">
+        <path name="voice-handset" />
+    </path>
+
     <path name="voice-speaker">
         <path name="speaker" />
     </path>
 
+    <path name="speaker-for-voip">
+        <path name="voice-speaker" />
+    </path>
+
     <path name="voice-speaker-mic">
         <path name="speaker-mic" />
+    </path>
+
+    <!-- Hands-free settings for 2nd Mic -->
+    <path name="voice-speaker-bmic">
+        <path name="adc1" />
+        <ctl name="IIR1 INP1 MUX" value="DEC1" />
+    </path>
+
+    <path name="speaker-bmic-for-voip">
+        <path name="voice-speaker-bmic" />
     </path>
 
     <path name="voice-headphones">
@@ -663,13 +664,56 @@
         <path name="sidetone-headphone" />
     </path>
 
+    <path name="headphones-for-voip">
+        <path name="voice-headphones" />
+    </path>
+
     <path name="voice-headset-mic">
         <path name="headset-mic" />
+    </path>
+
+    <path name="headphones-mic-for-voip">
+        <path name="voice-headset-mic" />
     </path>
 
     <path name="speaker-and-headphones">
         <path name="speaker" />
         <path name="headphones" />
+        <ctl name="RX1 Digital Volume" value="64" />
+        <ctl name="RX2 Digital Volume" value="64" />
+        <ctl name="EAR PA Gain" value="POS_6_DB" />
+        <ctl name="RX3 MIX1 INP2" value="RX2" />
+        <ctl name="RX3 Digital Volume" value="78" />
+	</path>
+
+    <path name="speaker-and-headphones-three-poles">
+        <path name="speaker" />
+        <path name="headphones" />
+        <ctl name="RX1 Digital Volume" value="64" />
+        <ctl name="RX2 Digital Volume" value="64" />
+        <ctl name="EAR PA Gain" value="POS_6_DB" />
+        <ctl name="RX3 MIX1 INP2" value="RX2" />
+        <ctl name="RX3 Digital Volume" value="78" />
+    </path>
+
+    <path name="speaker-and-headphones-for-ringtone">
+        <path name="speaker" />
+        <path name="headphones" />
+        <ctl name="RX1 Digital Volume" value="64" />
+        <ctl name="RX2 Digital Volume" value="64" />
+        <ctl name="EAR PA Gain" value="POS_6_DB" />
+        <ctl name="RX3 MIX1 INP2" value="RX2" />
+        <ctl name="RX3 Digital Volume" value="78" />
+    </path>
+
+    <path name="speaker-and-headphones-three-poles-for-ringtone">
+        <path name="speaker" />
+        <path name="headphones" />
+        <ctl name="RX1 Digital Volume" value="64" />
+        <ctl name="RX2 Digital Volume" value="64" />
+        <ctl name="EAR PA Gain" value="POS_6_DB" />
+        <ctl name="RX3 MIX1 INP2" value="RX2" />
+        <ctl name="RX3 Digital Volume" value="78" />
     </path>
 
     <path name="usb-headphones">
@@ -691,8 +735,20 @@
     </path>
 
     <path name="camcorder-mic">
-        <path name="handset-mic" />
-    </path>
+        <ctl name="DEC1 MUX" value="ADC1" />
+        <ctl name="DEC2 MUX" value="ADC2" />
+        <ctl name="ADC2 MUX" value="INP3" />
+        <ctl name="ADC3 Volume" value="1" />
+        <ctl name="MI2S_TX Channels" value="Two" />
+	</path>
+
+	<path name="camcorder-mic-inverse">
+        <ctl name="DEC1 MUX" value="ADC2" />
+        <ctl name="DEC2 MUX" value="ADC1" />
+        <ctl name="ADC2 MUX" value="INP3" />
+        <ctl name="ADC3 Volume" value="1" />
+        <ctl name="MI2S_TX Channels" value="Two" />
+	</path>
 
     <path name="bt-sco-headset">
     </path>
@@ -712,13 +768,9 @@
     <path name="capture-fm">
     </path>
 
-    <!-- weiguohua modify it from adc3 TO adc1 20141021-->
     <!-- Dual MIC devices -->
     <path name="speaker-dmic-endfire">
         <path name="adc1" />
-        <ctl name="DEC2 MUX" value="ADC2" />
-        <ctl name="MI2S_TX Channels" value="Two" />
-        <ctl name="ADC2 MUX" value="INP3" />
     </path>
 
     <path name="dmic-endfire">
@@ -729,6 +781,7 @@
         <path name="dmic-endfire" />
     </path>
 
+    <!-- Handset settings for Dual Mic -->
     <path name="voice-dmic-ef">
         <path name="dmic-endfire" />
     </path>
@@ -753,6 +806,10 @@
         <path name="speaker-dmic-endfire" />
     </path>
 
+    <path name="handset-dmic-for-voip">
+        <path name="voice-dmic-ef" />
+    </path>
+
     <path name="speaker-dmic-broadside">
         <path name="adc3" />
         <ctl name="DEC2 MUX" value="ADC1" />
@@ -773,9 +830,39 @@
 
     <!-- TTY devices -->
 
+    <path name="echo-reference-low-latency-record speaker">
+        <ctl name="AUDIO_REF_EC_UL5 MUX" value="I2S_RX" />
+    </path>
+
+    <path name="echo-reference-audio-record speaker">
+        <ctl name="AUDIO_REF_EC_UL1 MUX" value="I2S_RX" />
+    </path>
+
+    <path name="echo-reference-low-latency-record handset">
+        <ctl name="AUDIO_REF_EC_UL5 MUX" value="I2S_RX" />
+    </path>
+
+    <path name="echo-reference-audio-record handset">
+        <ctl name="AUDIO_REF_EC_UL1 MUX" value="I2S_RX" />
+    </path>
+
+    <path name="echo-reference-low-latency-record headphone">
+        <ctl name="AUDIO_REF_EC_UL5 MUX" value="I2S_RX" />
+    </path>
+
+    <path name="echo-reference-audio-record headphone">
+        <ctl name="AUDIO_REF_EC_UL1 MUX" value="I2S_RX" />
+    </path>
+
     <path name="tty-headphones">
+        <ctl name="MI2S_RX Channels" value="Two" />
         <ctl name="RX1 MIX1 INP1" value="RX1" />
+        <ctl name="RX2 MIX1 INP1" value="RX2" />
+        <ctl name="RDAC2 MUX" value="RX2" />
+        <ctl name="RX1 Digital Volume" value="84" />
+        <ctl name="EAR PA Gain" value="POS_6_DB" />
         <ctl name="HPHL" value="Switch" />
+		<ctl name="HPHR" value="Switch" />
     <!-- deepbuffer zte hifi play music  zte weiguohua add it for zte hifi music  begin  20141113-->
         <ctl name="ZTE HPH Switch" value="PMIC" />
     <!-- deepbuffer zte hifi play music  zte weiguohua add it for zte hifi music  end  20141113-->
@@ -805,7 +892,6 @@
         <path name="voice-tty-full-headset-mic" />
     </path>
 
-    <!-- weiguohua modify it from adc3 TO adc1 20141021-->
     <path name="voice-tty-vco-handset-mic">
         <path name="adc1" />
     </path>
@@ -814,4 +900,23 @@
         <ctl name="MI2S_DL_HL Switch" value="1" />
     </path>
 
+    <path name="line">
+        <path name="headphones" />
+    </path>
+
+    <path name="voice-line">
+        <path name="voice-headphones" />
+    </path>
+
+    <path name="speaker-and-line">
+        <path name="speaker-and-headphones" />
+    </path>
+
+    <path name="unprocessed-handset-mic">
+        <path name="handset-mic" />
+    </path>
+
+    <path name="unprocessed-mic">
+        <path name="unprocessed-handset-mic" />
+    </path>
 </mixer>
