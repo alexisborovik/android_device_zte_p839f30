@@ -57,16 +57,15 @@ vendor/lib/libmmcamera2_wnr_module.so
 vendor/lib/libmmcamera_faceproc.so
 vendor/lib/libmmcamera_hdr_gb_lib.so
 vendor/lib/libmmcamera_hdr_lib.so
-vendor/lib/libmmcamera_imx214_f13n05e_eeprom.so
-vendor/lib/libmmcamera_imx214_f13n05e.so
-vendor/lib/libmmcamera_imx214_olqba15_eeprom.so
-vendor/lib/libmmcamera_imx214_olqba15.so
-vendor/lib/libmmcamera_s5k5e2_olq5f24_eeprom.so
-vendor/lib/libmmcamera_s5k5e2_olq5f24.so
+vendor/lib/libmmcamera_imx214.so
+vendor/lib/libmmcamera_s5k5e2.so
 vendor/lib/libmmcamera_imglib.so
 vendor/lib/libmmcamera_tintless_algo.so
 vendor/lib/libmmcamera_tintless_bg_pca_algo.so
 vendor/lib/libmmcamera_wavelet_lib.so
+vendor/lib/libmmcamera_zte_gt24c16_eeprom.so
+vendor/lib/libmmcamera_zte_gt24c16_imx214_eeprom.so
+vendor/lib/libmmcamera_zte_gt24c64a_eeprom.so
 vendor/lib/libmmipl.so
 vendor/lib/libmmjpeg.so
 vendor/lib/libmmqjpeg_codec.so
@@ -76,42 +75,28 @@ vendor/lib/libts_detected_face_hal.so
 vendor/lib/libts_face_beautify_hal.so
 
 # Camera actuator
-vendor/lib/libactuator_dw9761b_f13n05e_camcorder.so
-vendor/lib/libactuator_dw9761b_f13n05e_camera.so
-vendor/lib/libactuator_dw9761b_f13n05e.so
-vendor/lib/libactuator_dw9761_ofilm_camcorder.so
-vendor/lib/libactuator_dw9761_ofilm_camera.so
-vendor/lib/libactuator_dw9761_ofilm.so
+vendor/lib/libactuator_bu64291gwz.so
+vendor/lib/libactuator_bu64291gwz_camcorder.so
+vendor/lib/libactuator_bu64291gwz_camera.so
 
 # Camera chromatix
-vendor/lib/libchromatix_imx214_f13n05e_common.so
-vendor/lib/libchromatix_imx214_f13n05e_hfr_120fps.so
-vendor/lib/libchromatix_imx214_f13n05e_hfr_60fps.so
-vendor/lib/libchromatix_imx214_f13n05e_hfr_90fps.so
-vendor/lib/libchromatix_imx214_f13n05e_liveshot.so
-vendor/lib/libchromatix_imx214_f13n05e_preview.so
-vendor/lib/libchromatix_imx214_f13n05e_snapshot_hdr.so
-vendor/lib/libchromatix_imx214_f13n05e_snapshot.so
-vendor/lib/libchromatix_imx214_f13n05e_video_hdr.so
-vendor/lib/libchromatix_imx214_f13n05e_video_hd.so
-vendor/lib/libchromatix_imx214_f13n05e_video.so
-vendor/lib/libchromatix_imx214_olqba15_common.so
-vendor/lib/libchromatix_imx214_olqba15_hfr_120fps.so
-vendor/lib/libchromatix_imx214_olqba15_hfr_60fps.so
-vendor/lib/libchromatix_imx214_olqba15_hfr_90fps.so
-vendor/lib/libchromatix_imx214_olqba15_liveshot.so
-vendor/lib/libchromatix_imx214_olqba15_preview.so
-vendor/lib/libchromatix_imx214_olqba15_snapshot_hdr.so
-vendor/lib/libchromatix_imx214_olqba15_snapshot.so
-vendor/lib/libchromatix_imx214_olqba15_video_hdr.so
-vendor/lib/libchromatix_imx214_olqba15_video_hd.so
-vendor/lib/libchromatix_imx214_olqba15_video.so
-vendor/lib/libchromatix_s5k5e2_olq5f24_common.so
-vendor/lib/libchromatix_s5k5e2_olq5f24_liveshot.so
-vendor/lib/libchromatix_s5k5e2_olq5f24_preview.so
-vendor/lib/libchromatix_s5k5e2_olq5f24_snapshot.so
-vendor/lib/libchromatix_s5k5e2_olq5f24_video_hd.so
-vendor/lib/libchromatix_s5k5e2_olq5f24_video.so
+vendor/lib/libchromatix_imx214_common.so
+vendor/lib/libchromatix_imx214_default_video.so
+vendor/lib/libchromatix_imx214_hfr_120fps.so
+vendor/lib/libchromatix_imx214_hfr_60fps.so
+vendor/lib/libchromatix_imx214_hfr_90fps.so
+vendor/lib/libchromatix_imx214_liveshot.so
+vendor/lib/libchromatix_imx214_preview.so
+vendor/lib/libchromatix_imx214_snapshot_hdr.so
+vendor/lib/libchromatix_imx214_snapshot.so
+vendor/lib/libchromatix_imx214_video_1080p.so
+vendor/lib/libchromatix_imx214_video_hdr.so
+vendor/lib/libchromatix_s5k5e2_common.so
+vendor/lib/libchromatix_s5k5e2_default_video.so
+vendor/lib/libchromatix_s5k5e2_liveshot.so
+vendor/lib/libchromatix_s5k5e2_preview.so
+vendor/lib/libchromatix_s5k5e2_snapshot.so
+
 
 # Camera firmware
 etc/firmware/cpp_firmware_v1_1_1.fw:vendor/firmware/cpp_firmware_v1_1_1.fw
@@ -186,9 +171,6 @@ etc/firmware/venus.b04:vendor/firmware/venus.b04
 etc/firmware/venus.mbn:vendor/firmware/venus.mbn
 etc/firmware/venus.mdt:vendor/firmware/venus.mdt
 
-# NFC
-vendor/firmware/BCM20795A2_001.003.025.0005.0050_Generic_I2C_NCD_Unsigned_configdata.ncd
-
 # Perf
 bin/msm_irqbalance:vendor/bin/msm_irqbalance
 vendor/bin/perfd
@@ -258,7 +240,7 @@ bin/time_daemon:vendor/bin/time_daemon
 vendor/lib/libTimeService.so
 
 # Touchscreen
-etc/firmware/A4_15_2.2_AA.raw:vendor/firmware/A4_15_2.2_AA.raw
+etc/firmware/dsx_jdi_4291.img:vendor/firmware/dsx_jdi_4291.img
 
 # WLAN
 bin/wcnss_service:vendor/bin/wcnss_service

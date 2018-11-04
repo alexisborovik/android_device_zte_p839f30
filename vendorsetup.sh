@@ -1,0 +1,3 @@
+add_lunch_combo lineage_p839f30-eng
+add_lunch_combo lineage_p839f30-user
+add_lunch_combo lineage_p839f30-userdebug

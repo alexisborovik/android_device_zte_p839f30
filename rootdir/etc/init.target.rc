@@ -26,38 +26,18 @@
 #
 
 on fs
-    write /sys/class/android_usb/android0/iProduct Aquaris_M5
+    write /sys/class/android_usb/android0/iProduct Blade-S6
 
 on post-fs-data
 
-    # Create directory used by display clients
-    copy /system/etc/display/calib.cfg /data/misc/display/calib.cfg
-    chown system graphics /data/misc/display/calib.cfg
-
-    # NFC local data and nfcee xml storage
-    mkdir /data/nfc 0770 nfc nfc
-    mkdir /data/nfc/param 0770 nfc nfc
-    chmod 0700 /data/nfc
-    chmod 0700 /data/nfc/param
-    chown nfc nfc /data/nfc
-    chown nfc nfc /data/nfc/param
-    restorecon_recursive /data/nfc
-
-    chown root root /vendor/bin/init.atmel_ts.sh
-    chmod 777 /vendor/bin/init.atmel_ts.sh
 
     # Tap To Wake
-    chown root system /sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/en_gesture
-    chmod 0660 /sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/en_gesture
+    chown root system /sys/syna_wake_gesture/wake_gesture
+    chmod 0660 /sys/syna_wake_gesture/wake_gesture
 
     # Disable Keys
     chown root system /sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/disable_keys
     chmod 0660 /sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/disable_keys
-
-service atmel_ts /vendor/bin/sh /vendor/bin/init.atmel_ts.sh
-    class main
-    user root
-    oneshot
 
 service msm_irqbalance /vendor/bin/msm_irqbalance -f /vendor/etc/msm_irqbalance.conf
     class core

@@ -15,29 +15,29 @@
 # limitations under the License.
 #
 
--include device/bq/msm8916-common/BoardConfigCommon.mk
+-include device/zte/msm8916-common/BoardConfigCommon.mk
 
-DEVICE_PATH := device/bq/piccolo
+DEVICE_PATH := device/zte/p839f30
 
 # Platform
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno405
 
 # Kernel
-TARGET_KERNEL_SOURCE := kernel/bq/msm8939
-TARGET_KERNEL_CONFIG := piccolo_defconfig
+TARGET_KERNEL_SOURCE := kernel/zte/msm8939
+TARGET_KERNEL_CONFIG := p839f30_defconfig
 
 # Assert
-TARGET_OTA_ASSERT_DEVICE := aquarism5,piccolo,Aquaris_M5
+TARGET_OTA_ASSERT_DEVICE := p839f30,P839F30,Blade-S6
 
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
 
 # Lineagehw
 BOARD_HARDWARE_CLASS += $(DEVICE_PATH)/lineagehw/src
-TARGET_TAP_TO_WAKE_NODE := "/sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/en_gesture"
+TARGET_TAP_TO_WAKE_NODE := "/sys/syna_wake_gesture/wake_gesture"
 
-# Filesystem
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 13013734522 # (BOARD_USERDATAIMAGE_PARTITION_SIZE - 16384 for crypto footer)
+# Filesystem                                      #  12054903808 vendor partition cleared
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 12054887424 # (BOARD_USERDATAIMAGE_PARTITION_SIZE - 16384 for crypto footer)
 
 # Power
 TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(DEVICE_PATH)/power/power_ext.c
@@ -49,4 +49,4 @@ BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy
 DEVICE_MANIFEST_FILE += $(DEVICE_PATH)/manifest.xml
 
 # Inherit from the proprietary version
--include vendor/bq/piccolo/BoardConfigVendor.mk
+-include vendor/zte/p839f30/BoardConfigVendor.mk

@@ -19,7 +19,7 @@
 #ifndef _BDROID_BUILDCFG_H
 #define _BDROID_BUILDCFG_H
 
-#define BTM_DEF_LOCAL_NAME   "bq Aquaris M5"
+#define BTM_DEF_LOCAL_NAME   "ZTE Blade S6"
 
 #define PROC_BTWRITE_TIMER_TIMEOUT_MS = 0
 

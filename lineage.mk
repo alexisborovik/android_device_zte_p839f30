@@ -1,31 +1,30 @@
 # Boot animation
-TARGET_SCREEN_HEIGHT := 1920
-TARGET_SCREEN_WIDTH := 1080
+TARGET_SCREEN_HEIGHT := 1280
+TARGET_SCREEN_WIDTH := 720
 TARGET_BOOTANIMATION_HALF_RES := true
 
 # Inherit some common Lineage stuff
 $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 
 # Inherit device configuration
-$(call inherit-product, device/bq/piccolo/full_piccolo.mk)
+$(call inherit-product, device/zte/p839f30/full_p839f30.mk)
 
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_l.mk)
 
-PRODUCT_RELEASE_NAME := Aquaris M5
-PRODUCT_NAME := lineage_piccolo
+PRODUCT_RELEASE_NAME := Blade S6
+PRODUCT_NAME := lineage_p839f30
 
 # Set product device & name
 PRODUCT_BUILD_PROP_OVERRIDES += \
-   TARGET_DEVICE=Aquaris_M5 PRODUCT_NAME=Aquaris_M5
+   TARGET_DEVICE=Blade-S6 PRODUCT_NAME=Blade-S6
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    PRIVATE_BUILD_DESC="piccolo-user 7.1.2 N2G47H 5.1.0_20180205-1243 release-keys"
+    BUILD_FINGERPRINT=ZTE/Blade-S6/P839F30:5.0.2/LRX22G/eng.zte.20150508.150143:user/release-keys \
+    PRIVATE_BUILD_DESC="msm8916_32-user 5.0.2 LRX22G eng.zte.20150508.150143 release-keys"
 
-BUILD_FINGERPRINT := bq/Aquaris_M5/Aquaris_M5:7.1.2/N2G47H/1517833600:user/release-keys
-
-PRODUCT_GMS_CLIENTID_BASE := android-bq
+PRODUCT_GMS_CLIENTID_BASE := android-zte
 
 # Vendor security patch level
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.lineage.build.vendor_security_patch=2018-01-05
+    ro.lineage.build.vendor_security_patch=2015-05-08
