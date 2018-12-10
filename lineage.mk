@@ -20,11 +20,12 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
    TARGET_DEVICE=Blade-S6 PRODUCT_NAME=Blade-S6
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    BUILD_FINGERPRINT=ZTE/Blade-S6/P839F30:5.0.2/LRX22G/eng.zte.20150508.150143:user/release-keys \
     PRIVATE_BUILD_DESC="msm8916_32-user 5.0.2 LRX22G eng.zte.20150508.150143 release-keys"
+
+BUILD_FINGERPRINT := ZTE/Blade-S6/P839F30:5.0.2/LRX22G/eng.zte.20150508.150143:user/release-keys
 
 PRODUCT_GMS_CLIENTID_BASE := android-zte
 
 # Vendor security patch level
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.lineage.build.vendor_security_patch=2015-05-08
+    ro.lineage.build.vendor_security_patch=2018-11-06

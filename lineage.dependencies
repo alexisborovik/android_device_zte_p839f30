@@ -2,5 +2,9 @@
   {
     "repository": "android_device_zte_msm8916-common",
     "target_path": "device/zte/msm8916-common"
+  },
+  {
+    "repository": "android_packages_resources_devicesettings",
+    "target_path": "packages/resources/devicesettings"
   }
 ]

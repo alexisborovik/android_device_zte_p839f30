@@ -30,6 +30,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/hdrhax:$(TARGET_COPY_OUT_VENDOR)/etc/hdrhax
 
+# ConfigPanel
+PRODUCT_PACKAGES += \
+ConfigPanel
 
 # IRQ balance
 PRODUCT_COPY_FILES += \
