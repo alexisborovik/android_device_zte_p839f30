@@ -19,3 +19,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	camera2.portability.force_api=1 \
 	media.stagefright.legacyencoder=true \
 	media.stagefright.less-secure=true
+
+# Perfd
+PRODUCT_PROPERTY_OVERRIDES += \
+	ro.min_freq_0=960000 \
+	ro.min_freq_4=800000
