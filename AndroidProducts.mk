@@ -16,4 +16,4 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/full_p839f30.mk
+    $(LOCAL_DIR)/lineage_p839f30.mk

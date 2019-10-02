@@ -28,4 +28,4 @@ PRODUCT_GMS_CLIENTID_BASE := android-zte
 
 # Vendor security patch level
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.lineage.build.vendor_security_patch=2018-11-06
+    ro.lineage.build.vendor_security_patch=2019-10-02
