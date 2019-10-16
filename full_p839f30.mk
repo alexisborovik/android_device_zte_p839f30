@@ -23,6 +23,12 @@ $(call inherit-product, device/zte/msm8916-common/msm8916.mk)
 $(call inherit-product, device/zte/p839f30/device.mk)
 $(call inherit-product-if-exists, vendor/zte/p839f30/p839f30-vendor.mk)
 
+# -----------------------------------------------------------------------------
+# Include Maru stuff
+
+$(call inherit-product, vendor/maruos/device-maru.mk)
+
+
 # Device identifier. This must come after all inclusions.
 PRODUCT_DEVICE := p839f30
 PRODUCT_NAME := full_p839f30
