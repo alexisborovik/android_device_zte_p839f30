@@ -46,7 +46,7 @@ TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(DEVICE_PATH)/power/power_ext.c
 BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy
 
 # Vendor Interface Manifest
-DEVICE_MANIFEST_FILE += $(DEVICE_PATH)/manifest.xml
+#DEVICE_MANIFEST_FILE += $(DEVICE_PATH)/manifest.xml
 
 # Inherit from the proprietary version
 -include vendor/zte/p839f30/BoardConfigVendor.mk
