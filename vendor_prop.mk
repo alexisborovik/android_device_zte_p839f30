@@ -14,11 +14,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.sf.lcd_density=320 \
     ro.opengles.version=196610
 
-# Perfd
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.min_freq_0=200000 \
-    ro.min_freq_4=200000
-
 # Camera
 PRODUCT_PROPERTY_OVERRIDES += \
 	camera2.portability.force_api=1 \
