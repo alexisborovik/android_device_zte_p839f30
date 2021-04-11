@@ -17,3 +17,8 @@
 
 PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/lineage_p839f30.mk
+
+COMMON_LUNCH_CHOICES := \
+	lineage_p839f30-eng \
+	lineage_p839f30-user \
+	lineage_p839f30-userdebug
